@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="px-8 py-10 max-w-4xl mx-auto">
+    <header class="mb-10">
+        <h1 class="text-4xl font-extrabold text-gray-900 dark:text-white mb-2">Your Reading History</h1>
+        <p class="text-gray-500 dark:text-gray-400">Powered by Stack Data Structure (LIFO).</p>
+    </header>
+
+    <div class="relative border-l-2 border-gray-200 dark:border-gray-700 ml-3">
+        {% for item in history %}
+        <div class="mb-8 pl-8 relative group">
+            
+            <div class="absolute w-6 h-6 bg-white dark:bg-gray-800 rounded-full border-4 {{ 'border-green-500' if item.action == 'RETURN' else 'border-primary' }} -left-[13px] top-1 shadow transition-transform group-hover:scale-125 z-10"></div>
+            
+            <div class="glass p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 flex justify-between items-center book-card">
+                <div>
+                    <div class="flex items-center space-x-2 mb-1">
+                        <span class="text-xs font-bold px-2 py-1 rounded {{ 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' if item.action == 'RETURN' else 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400' }}">
+                            {{ item.action }}
+                        </span>
+                        <span class="text-xs text-gray-400 font-medium">{{ item.timestamp[:10] }}</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white">{{ item.book_title }}</h3>
+                </div>
+                
+                <div class="text-2xl {{ 'text-green-500' if item.action == 'RETURN' else 'text-primary' }} opacity-20">
+                    <ion-icon name="{{ 'arrow-undo' if item.action == 'RETURN' else 'arrow-redo' }}"></ion-icon>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="pl-8 text-gray-500 dark:text-gray-400">
+            No history found. Start issuing books!
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

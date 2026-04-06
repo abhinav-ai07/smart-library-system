@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="px-8 py-10 max-w-7xl mx-auto">
+    
+    <header class="mb-10">
+        <h1 class="text-4xl font-extrabold text-gray-900 dark:text-white">Welcome back, <span class="text-primary">{{ user }}</span>! 👋</h1>
+        <p class="text-gray-500 dark:text-gray-400 mt-2 text-lg">Here's what is happening in your reading journey today.</p>
+    </header>
+    
+    <!-- Stats Row -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <div class="glass p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 book-card group dark:bg-gray-800/50 relative overflow-hidden">
+            <div class="absolute -right-4 -top-4 text-primary opacity-10 text-9xl group-hover:scale-110 transition-transform">
+                <ion-icon name="book"></ion-icon>
+            </div>
+            <h3 class="text-gray-500 dark:text-gray-400 font-medium text-sm mb-1 uppercase tracking-wider relative z-10">Total Books</h3>
+            <p class="text-4xl font-bold text-gray-900 dark:text-white relative z-10">14</p>
+            <div class="mt-4 text-sm text-green-500 font-medium flex items-center relative z-10">
+                <ion-icon name="arrow-up-outline" class="mr-1"></ion-icon> System up to date
+            </div>
+        </div>
+        
+        <div class="glass p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 book-card group dark:bg-gray-800/50 relative overflow-hidden">
+            <div class="absolute -right-4 -top-4 text-secondary opacity-10 text-9xl group-hover:scale-110 transition-transform">
+                <ion-icon name="git-network"></ion-icon>
+            </div>
+            <h3 class="text-gray-500 dark:text-gray-400 font-medium text-sm mb-1 uppercase tracking-wider relative z-10">Study Paths</h3>
+            <p class="text-4xl font-bold text-gray-900 dark:text-white relative z-10">4</p>
+            <div class="mt-4 text-sm text-green-500 font-medium flex items-center relative z-10">
+                <a href="{{ url_for('study_path') }}" class="hover:underline flex items-center">View progress <ion-icon name="arrow-forward-outline" class="ml-1"></ion-icon></a>
+            </div>
+        </div>
+        
+        <div class="glass p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 book-card group dark:bg-gray-800/50 relative overflow-hidden">
+            <div class="absolute -right-4 -top-4 text-purple-500 opacity-10 text-9xl group-hover:scale-110 transition-transform">
+                <ion-icon name="time"></ion-icon>
+            </div>
+            <h3 class="text-gray-500 dark:text-gray-400 font-medium text-sm mb-1 uppercase tracking-wider relative z-10">Recent Activity</h3>
+            {% if recent %}
+                <p class="text-xl font-bold text-gray-900 dark:text-white relative z-10 truncate mt-2">{{ recent.book_title }}</p>
+                <div class="mt-2 text-sm text-purple-500 font-medium flex items-center relative z-10">
+                    <span class="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 rounded-md text-xs font-bold">{{ recent.action }}</span>
+                </div>
+            {% else %}
+                <p class="text-xl font-bold text-gray-400 dark:text-gray-600 relative z-10 mt-2">No recent activity</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Quick Actions -->
+    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Quick Actions</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <a href="{{ url_for('search') }}" class="flex items-center p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition border border-gray-100 dark:border-gray-700 book-card">
+            <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-4 text-xl">
+                <ion-icon name="search"></ion-icon>
+            </div>
+            <div>
+                <h4 class="font-bold text-gray-900 dark:text-white">Find a Book</h4>
+                <p class="text-xs text-gray-500">Search using smart Trie</p>
+            </div>
+        </a>
+        
+        <a href="{{ url_for('recommend') }}" class="flex items-center p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition border border-gray-100 dark:border-gray-700 book-card">
+            <div class="w-12 h-12 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center mr-4 text-xl">
+                <ion-icon name="bulb"></ion-icon>
+            </div>
+            <div>
+                <h4 class="font-bold text-gray-900 dark:text-white">Get Recommendations</h4>
+                <p class="text-xs text-gray-500">Graph-based suggestions</p>
+            </div>
+        </a>
+    </div>
+
+</div>
+{% endblock %}

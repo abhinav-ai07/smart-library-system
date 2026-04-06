@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-indigo-50 to-emerald-50 dark:from-gray-900 dark:to-gray-800">
+    <div class="glass w-full max-w-md p-8 rounded-3xl shadow-2xl relative overflow-hidden">
+        <!-- Abstract Decoration -->
+        <div class="absolute -top-10 -right-10 w-40 h-40 bg-indigo-500 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob"></div>
+        <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-emerald-500 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob animation-delay-2000"></div>
+
+        <div class="relative z-10 text-center mb-8">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-400 mb-4 shadow-inner">
+                <ion-icon name="library" class="text-3xl"></ion-icon>
+            </div>
+            <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white">Welcome Back</h2>
+            <p class="text-gray-500 dark:text-gray-400 mt-2 text-sm">Sign in to your intelligent library dashboard.</p>
+        </div>
+
+        {% if error %}
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl relative mb-4 text-sm" role="alert">
+            <span class="block sm:inline">{{ error }}</span>
+        </div>
+        {% endif %}
+
+        <form method="POST" action="/login" class="relative z-10 space-y-6">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="username">Username</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                        <ion-icon name="person-outline"></ion-icon>
+                    </div>
+                    <input class="w-full pl-10 pr-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all dark:text-white" id="username" name="username" type="text" placeholder="Enter username" required>
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="password">Password</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                    </div>
+                    <input class="w-full pl-10 pr-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all dark:text-white" id="password" name="password" type="password" placeholder="••••••••" required>
+                </div>
+            </div>
+            
+            <button class="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-md text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all transform hover:scale-105" type="submit">
+                Sign In
+            </button>
+        </form>
+        
+        <p class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400 relative z-10">
+            Don't have an account? 
+            <a href="{{ url_for('signup') }}" class="font-semibold text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 transition-colors">Create one</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

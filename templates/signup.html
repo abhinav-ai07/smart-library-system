@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center p-6 bg-gradient-to-bl from-emerald-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900">
+    <div class="glass w-full max-w-md p-8 rounded-3xl shadow-2xl relative overflow-hidden">
+        <!-- Abstract Decoration -->
+        <div class="absolute -top-10 -left-10 w-40 h-40 bg-emerald-500 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob"></div>
+        <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-indigo-500 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob animation-delay-2000"></div>
+
+        <div class="relative z-10 text-center mb-8">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-900 text-emerald-600 dark:text-emerald-400 mb-4 shadow-inner">
+                <ion-icon name="person-add" class="text-3xl"></ion-icon>
+            </div>
+            <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white">Join SLibrary</h2>
+            <p class="text-gray-500 dark:text-gray-400 mt-2 text-sm">Unlock personalized book recommendations and track your study paths.</p>
+        </div>
+
+        {% if error %}
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl relative mb-4 text-sm" role="alert">
+            <span class="block sm:inline">{{ error }}</span>
+        </div>
+        {% endif %}
+
+        <form method="POST" action="/signup" class="relative z-10 space-y-6">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="username">Choose a Username</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                        <ion-icon name="person-outline"></ion-icon>
+                    </div>
+                    <input class="w-full pl-10 pr-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all dark:text-white" id="username" name="username" type="text" placeholder="E.g., bookworm99" required>
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="password">Create a Password</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                    </div>
+                    <input class="w-full pl-10 pr-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all dark:text-white" id="password" name="password" type="password" placeholder="••••••••" required>
+                </div>
+            </div>
+            
+            <button class="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-md text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all transform hover:scale-105" type="submit">
+                Create Account
+            </button>
+        </form>
+        
+        <p class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400 relative z-10">
+            Already have an account? 
+            <a href="{{ url_for('login') }}" class="font-semibold text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 transition-colors">Sign in</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

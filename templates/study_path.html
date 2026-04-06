@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="px-8 py-10 max-w-7xl mx-auto">
+    <header class="mb-12 text-center">
+        <h1 class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-4">Structured Study Paths</h1>
+        <p class="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">Follow a structured curriculum designed to take you from beginner to advanced. Complete lower levels to advance.</p>
+    </header>
+
+    <div class="space-y-12">
+        {% for genre, books in paths.items() %}
+        <div class="mb-10">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 border-b border-gray-200 dark:border-gray-700 pb-2 flex items-center">
+                <ion-icon name="folder-open-outline" class="mr-3 text-primary"></ion-icon> {{ genre }} Path
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+                <!-- Connector Line -->
+                <div class="hidden md:block absolute top-1/2 left-0 right-0 h-1 bg-gray-200 dark:bg-gray-700 -translate-y-1/2 z-0"></div>
+
+                {% set levels = ["Beginner", "Intermediate", "Advanced"] %}
+                
+                {% for level in levels %}
+                    {% set level_books = books|selectattr('level', 'equalto', level)|list %}
+                    {% if level_books|length > 0 %}
+                        {% set book = level_books[0] %}
+                        <!-- Determine Lock Status (Mock logic: if previous level isn't returned, maybe lock. Here we just mock it purely to show state visually for demo) -->
+                        <!-- Real progression logic would check `progress` dict. For now, UI interaction handles the states visually. -->
+                        {% set is_locked = false %} 
+                        
+                        <div class="relative z-10 glass bg-white/80 dark:bg-gray-800/80 p-6 rounded-2xl shadow border border-gray-100 dark:border-gray-700 flex flex-col items-center text-center book-card {{ 'opacity-70 grayscale-[50%]' if is_locked else '' }}">
+                            
+                            <div class="w-16 h-16 rounded-full flex items-center justify-center mb-4 {{ 'bg-gray-200 text-gray-500' if is_locked else 'bg-gradient-to-br from-primary to-indigo-600 text-white shadow-lg' }} text-2xl font-bold z-10">
+                                {% if is_locked %}
+                                    <ion-icon name="lock-closed"></ion-icon>
+                                {% else %}
+                                    {{ loop.index }}
+                                {% endif %}
+                            </div>
+
+                            <span class="text-xs font-bold uppercase tracking-wider mb-2 {{ 'text-gray-400' if is_locked else 'text-primary dark:text-indigo-400' }}">{{ level }}</span>
+                            <h3 class="font-bold text-gray-900 dark:text-white text-lg mb-1">{{ book.title }}</h3>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mb-6 line-clamp-2">{{ book.author }}</p>
+
+                            <div class="mt-auto w-full">
+                                {% if is_locked %}
+                                    <button disabled class="w-full py-2 bg-gray-100 dark:bg-gray-700 text-gray-400 text-sm font-medium rounded-lg cursor-not-allowed">Locked</button>
+                                {% else %}
+                                    {% if book.available %}
+                                        <button onclick="issueBook('{{ book.id }}')" class="w-full py-2 bg-indigo-50 dark:bg-indigo-900/40 text-primary dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 transition text-sm font-bold rounded-lg border border-indigo-200 dark:border-indigo-800">
+                                            Start Level
+                                        </button>
+                                    {% else %}
+                                        <button disabled class="w-full py-2 bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 text-sm font-bold rounded-lg border border-green-200 dark:border-green-800">
+                                            <ion-icon name="checkmark-circle"></ion-icon> In Progress
+                                        </button>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% else %}
+                        <!-- Empty placeholder if no book for this level -->
+                        <div class="relative z-10 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-2xl flex items-center justify-center p-6 bg-gray-50/50 dark:bg-gray-800/30">
+                            <span class="text-gray-400 text-sm font-medium">{{ level }} coming soon</span>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

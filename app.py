@@ -1,0 +1,257 @@
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+import json
+import os
+from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
+
+from utils.trie import build_trie
+from utils.graph import Graph
+from utils.stack import load_user_history_stack, save_user_history_stack
+
+app = Flask(__name__)
+app.secret_key = 'super_secret_key_for_smart_library'
+
+DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
+USERS_FILE = os.path.join(DATA_DIR, 'users.json')
+BOOKS_FILE = os.path.join(DATA_DIR, 'books.json')
+TRANSACTIONS_FILE = os.path.join(DATA_DIR, 'transactions.json')
+PROGRESS_FILE = os.path.join(DATA_DIR, 'progress.json')
+HISTORY_FILE = os.path.join(DATA_DIR, 'history.json')
+
+# Global Data Structures
+library_trie = None
+library_graph = Graph()
+books_list = []
+
+def load_data(file_path, default_val=list):
+    if not os.path.exists(file_path):
+        return default_val()
+    try:
+        with open(file_path, 'r') as f:
+            return json.load(f)
+    except:
+        return default_val()
+
+def save_data(file_path, data):
+    with open(file_path, 'w') as f:
+        json.dump(data, f, indent=4)
+
+def init_data_structures():
+    global library_trie, library_graph, books_list
+    books_list = load_data(BOOKS_FILE)
+    library_trie = build_trie(books_list)
+    library_graph.build_graph(books_list)
+
+# Init DS on startup
+init_data_structures()
+
+
+### ROUTES ###
+
+@app.route('/')
+def root():
+    if 'username' in session:
+        return redirect(url_for('home'))
+    return redirect(url_for('login'))
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        users = load_data(USERS_FILE)
+        username = request.form['username']
+        password = request.form['password']
+        
+        user = next((u for u in users if u['username'] == username), None)
+        if user and check_password_hash(user['password'], password):
+            session['username'] = username
+            return redirect(url_for('home'))
+        else:
+            return render_template('login.html', error="Invalid credentials")
+    
+    return render_template('login.html')
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        users = load_data(USERS_FILE)
+        username = request.form['username']
+        password = request.form['password']
+        
+        if any(u['username'] == username for u in users):
+            return render_template('signup.html', error="Username exists")
+            
+        new_user = {
+            'username': username,
+            'password': generate_password_hash(password)
+        }
+        users.append(new_user)
+        save_data(USERS_FILE, users)
+        
+        # Init progress
+        progress_data = load_data(PROGRESS_FILE, dict)
+        progress_data[username] = {}
+        save_data(PROGRESS_FILE, progress_data)
+        
+        return redirect(url_for('login'))
+        
+    return render_template('signup.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('login'))
+
+@app.route('/dashboard')
+def home():
+    if 'username' not in session: return redirect(url_for('login'))
+    # Load recent activity
+    user_stack = load_user_history_stack(HISTORY_FILE, session['username'])
+    recent = user_stack.peek()
+    return render_template('home.html', user=session['username'], recent=recent)
+
+@app.route('/search')
+def search():
+    if 'username' not in session: return redirect(url_for('login'))
+    return render_template('search.html')
+
+@app.route('/api/search')
+def api_search():
+    query = request.args.get('q', '')
+    if not query:
+        return jsonify([])
+    results = library_trie.search_prefix(query)
+    return jsonify(results)
+
+@app.route('/study-path')
+def study_path():
+    if 'username' not in session: return redirect(url_for('login'))
+    progress_data = load_data(PROGRESS_FILE, dict)
+    user_progress = progress_data.get(session['username'], {})
+    # Render with available books logically grouped
+    gen_grouped = {}
+    for b in books_list:
+        g = b['genre']
+        if g not in ["DSA", "AI", "Maths", "Statistics"]:
+            continue
+        if g not in gen_grouped:
+            gen_grouped[g] = []
+        gen_grouped[g].append(b)
+    
+    return render_template('study_path.html', paths=gen_grouped, progress=user_progress)
+
+@app.route('/api/progress/update', methods=['POST'])
+def update_progress():
+    if 'username' not in session: return jsonify({"status":"error", "msg":"Unauthorized"})
+    data = request.json
+    book_id = data.get('book_id')
+    status = data.get('status')
+    
+    progress_data = load_data(PROGRESS_FILE, dict)
+    user_prog = progress_data.get(session['username'], {})
+    user_prog[book_id] = status
+    progress_data[session['username']] = user_prog
+    save_data(PROGRESS_FILE, progress_data)
+    return jsonify({"status":"success"})
+
+@app.route('/recommend')
+def recommend():
+    if 'username' not in session: return redirect(url_for('login'))
+    
+    # Simple logic: get last issued/accessed book genre from stack
+    user_stack = load_user_history_stack(HISTORY_FILE, session['username'])
+    last = user_stack.peek()
+    
+    recs = []
+    if last:
+        book_id = last['book_id']
+        recs = library_graph.get_recommendations(book_id)
+    else:
+        # Defaults to general top books
+        recs = books_list[:5]
+        
+    return render_template('recommend.html', recommendations=recs)
+
+@app.route('/history')
+def history():
+    if 'username' not in session: return redirect(url_for('login'))
+    user_stack = load_user_history_stack(HISTORY_FILE, session['username'])
+    return render_template('history.html', history=user_stack.get_all())
+
+@app.route('/api/issue', methods=['POST'])
+def issue_book():
+    if 'username' not in session: return jsonify({"status":"error", "msg":"Unauthorized"})
+    book_id = request.json.get('book_id')
+    
+    book = next((b for b in books_list if b['id'] == book_id), None)
+    if not book or not book['available']:
+        # If unavailable, find alternative from graph
+        alt = library_graph.get_alternative(book_id)
+        return jsonify({
+            "status": "error", 
+            "msg": "Book is unavailable.",
+            "alternative": alt
+        })
+        
+    # Mark as unavailable
+    book['available'] = False
+    save_data(BOOKS_FILE, books_list)
+    
+    # Reload Graph & Trie
+    init_data_structures()
+    
+    # Add to transactions
+    trans = load_data(TRANSACTIONS_FILE)
+    t = {
+        'id': str(len(trans)+1),
+        'user': session['username'],
+        'book_id': book_id,
+        'book_title': book['title'],
+        'action': 'ISSUE',
+        'timestamp': datetime.now().isoformat()
+    }
+    trans.append(t)
+    save_data(TRANSACTIONS_FILE, trans)
+    
+    # Push to User History Stack
+    stack = load_user_history_stack(HISTORY_FILE, session['username'])
+    stack.push(t)
+    save_user_history_stack(HISTORY_FILE, session['username'], stack)
+    
+    return jsonify({"status":"success", "msg": f"Book '{book['title']}' issued successfully."})
+
+@app.route('/api/return', methods=['POST'])
+def return_book():
+    if 'username' not in session: return jsonify({"status":"error", "msg":"Unauthorized"})
+    book_id = request.json.get('book_id')
+    
+    book = next((b for b in books_list if b['id'] == book_id), None)
+    if not book:
+        return jsonify({"status": "error", "msg": "Book not found."})
+        
+    # Mark as available
+    book['available'] = True
+    save_data(BOOKS_FILE, books_list)
+    init_data_structures()
+    
+    # Add to transactions
+    trans = load_data(TRANSACTIONS_FILE)
+    t = {
+        'id': str(len(trans)+1),
+        'user': session['username'],
+        'book_id': book_id,
+        'book_title': book['title'],
+        'action': 'RETURN',
+        'timestamp': datetime.now().isoformat()
+    }
+    trans.append(t)
+    save_data(TRANSACTIONS_FILE, trans)
+    
+    # Push to User History Stack
+    stack = load_user_history_stack(HISTORY_FILE, session['username'])
+    stack.push(t)
+    save_user_history_stack(HISTORY_FILE, session['username'], stack)
+    
+    return jsonify({"status":"success", "msg": f"Book '{book['title']}' returned successfully."})
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5000)

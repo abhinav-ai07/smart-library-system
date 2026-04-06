@@ -1,0 +1,114 @@
+[
+    {
+        "id": "1",
+        "title": "Introduction to Algorithms",
+        "author": "Thomas H. Cormen",
+        "genre": "DSA",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "2",
+        "title": "Data Structures and Algorithms in Python",
+        "author": "Michael T. Goodrich",
+        "genre": "DSA",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "3",
+        "title": "Advanced Data Structures",
+        "author": "Peter Brass",
+        "genre": "DSA",
+        "level": "Advanced",
+        "available": false
+    },
+    {
+        "id": "4",
+        "title": "Artificial Intelligence: A Modern Approach",
+        "author": "Stuart Russell, Peter Norvig",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "5",
+        "title": "Deep Learning",
+        "author": "Ian Goodfellow",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "6",
+        "title": "Grokking Deep Learning",
+        "author": "Andrew W. Trask",
+        "genre": "AI",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "7",
+        "title": "Concrete Mathematics",
+        "author": "Ronald L. Graham",
+        "genre": "Maths",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "8",
+        "title": "Calculus",
+        "author": "James Stewart",
+        "genre": "Maths",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "9",
+        "title": "Topology",
+        "author": "James Munkres",
+        "genre": "Maths",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "10",
+        "title": "The Elements of Statistical Learning",
+        "author": "Trevor Hastie",
+        "genre": "Statistics",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "11",
+        "title": "Introduction to Statistical Learning",
+        "author": "Gareth James",
+        "genre": "Statistics",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "12",
+        "title": "Statistics for Dummies",
+        "author": "Deborah J. Rumsey",
+        "genre": "Statistics",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "13",
+        "title": "Clean Code",
+        "author": "Robert C. Martin",
+        "genre": "Software Engineering",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "14",
+        "title": "Design Patterns",
+        "author": "Erich Gamma",
+        "genre": "Software Engineering",
+        "level": "Advanced",
+        "available": true
+    }
+]
