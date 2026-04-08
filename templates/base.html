@@ -41,35 +41,42 @@
         
         /* Glass styling */
         .glass-panel {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
         }
 
-        /* Radial light overlay focused on bottom-right (book location) */
-        .book-focus-overlay {
+        /* Text Shadow for better contrast */
+        .text-glow {
+            text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+        }
+        
+        /* Video Enhancements */
+        .video-enhanced {
+            filter: brightness(1.08) contrast(1.05) saturate(1.1);
+        }
+        
+        /* Premium Soft Glow */
+        .premium-glow {
             position: fixed;
             inset: 0;
-            z-index: -1;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 60%);
             pointer-events: none;
-            background: radial-gradient(
-                circle at 80% 85%, 
-                rgba(0, 0, 0, 0) 0%, 
-                rgba(10, 10, 10, 0.6) 45%, 
-                rgba(5, 5, 5, 0.95) 100%
-            );
+            z-index: -2;
         }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-200 transition-colors duration-300 antialiased min-h-screen flex flex-col relative overflow-x-hidden">
+<body class="bg-gray-900 text-gray-200 transition-colors duration-300 antialiased min-h-screen flex flex-col relative overflow-x-hidden text-glow">
     
-    <!-- FULL HD Background Image - Unaltered -->
-    <img src="{{ url_for('static', filename='assets/book-bg.jpg') }}" class="fixed inset-0 w-full h-full object-cover z-[-2]">
+    <!-- Full-Screen Video Background -->
+    <video autoplay loop muted playsinline class="fixed inset-0 w-full h-full object-cover z-[-3] video-enhanced">
+        <source src="{{ url_for('static', filename='videos/book-animation2.mp4') }}" type="video/mp4">
+    </video>
     
-    <!-- Soft Vignette / Book GloOverlay -->
-    <div class="book-focus-overlay"></div>
+    <!-- Premium Soft Glow Over Video -->
+    <div class="premium-glow"></div>
     
     {% if session.get('username') %}
     <!-- Top Navbar -->
