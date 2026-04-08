@@ -2,17 +2,22 @@
 
 {% block content %}
 <div class="min-h-screen flex items-center justify-center p-6 w-full relative z-10">
-    <div class="glass-panel bg-black/40 w-full max-w-md p-8 rounded-3xl shadow-2xl relative overflow-hidden ring-1 ring-white/10">
+    <!-- Subtle Dark Radial Gradient Behind Login Card ONLY -->
+    <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
+        <div class="w-full max-w-2xl aspect-square bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.35)_0%,transparent_70%)]"></div>
+    </div>
+    
+    <div class="w-full max-w-md p-8 rounded-3xl relative overflow-hidden z-10" style="background: rgba(0, 0, 0, 0.55); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.6);">
         <!-- Abstract Decoration -->
-        <div class="absolute -top-10 -right-10 w-40 h-40 bg-indigo-500 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob"></div>
-        <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-emerald-500 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob animation-delay-2000"></div>
+        <div class="absolute -top-10 -right-10 w-40 h-40 bg-indigo-500 rounded-full mix-blend-screen filter blur-2xl opacity-20 animate-blob"></div>
+        <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-purple-500 rounded-full mix-blend-screen filter blur-2xl opacity-20 animate-blob animation-delay-2000"></div>
 
         <div class="relative z-10 text-center mb-8">
-            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-400 mb-4 shadow-inner">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/10 text-white border border-white/20 mb-4 shadow-inner backdrop-blur-md">
                 <ion-icon name="library" class="text-3xl"></ion-icon>
             </div>
-            <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white">Welcome Back</h2>
-            <p class="text-gray-500 dark:text-gray-400 mt-2 text-sm">Sign in to your intelligent library dashboard.</p>
+            <h2 class="text-3xl font-extrabold text-[#ffffff]" style="text-shadow: 0 2px 8px rgba(0,0,0,0.7);">Welcome Back</h2>
+            <p class="text-gray-200 font-medium mt-2 text-sm" style="text-shadow: 0 1px 4px rgba(0,0,0,0.6);">Sign in to your intelligent library dashboard.</p>
         </div>
 
         {% if error %}
@@ -23,32 +28,32 @@
 
         <form method="POST" action="/login" class="relative z-10 space-y-6">
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="username">Username</label>
+                <label class="block text-sm font-bold text-[#ffffff] mb-1 tracking-wide" style="text-shadow: 0 2px 4px rgba(0,0,0,0.7);" for="username">Username</label>
                 <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white/80">
                         <ion-icon name="person-outline"></ion-icon>
                     </div>
-                    <input class="w-full pl-10 pr-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all dark:text-white" id="username" name="username" type="text" placeholder="Enter username" required>
+                    <input class="w-full pl-10 pr-4 py-3 bg-white/15 border border-white/20 rounded-xl text-[#ffffff] placeholder-white/70 shadow-inner focus:ring-2 focus:ring-white/60 focus:border-white/60 outline-none transition-all backdrop-blur-sm" id="username" name="username" type="text" placeholder="Enter username" required>
                 </div>
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="password">Password</label>
+                <label class="block text-sm font-bold text-[#ffffff] mb-1 tracking-wide" style="text-shadow: 0 2px 4px rgba(0,0,0,0.7);" for="password">Password</label>
                 <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white/80">
                         <ion-icon name="lock-closed-outline"></ion-icon>
                     </div>
-                    <input class="w-full pl-10 pr-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all dark:text-white" id="password" name="password" type="password" placeholder="••••••••" required>
+                    <input class="w-full pl-10 pr-4 py-3 bg-white/15 border border-white/20 rounded-xl text-[#ffffff] placeholder-white/70 shadow-inner focus:ring-2 focus:ring-white/60 focus:border-white/60 outline-none transition-all backdrop-blur-sm" id="password" name="password" type="password" placeholder="••••••••" required>
                 </div>
             </div>
             
-            <button class="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-md text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all transform hover:scale-105" type="submit">
+            <button class="w-full flex justify-center py-3 px-4 border border-white/20 rounded-xl shadow-lg text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-300 focus:ring-offset-gray-900 transition-all transform hover:scale-105 hover:shadow-[0_0_20px_rgba(99,102,241,0.6)]" type="submit">
                 Sign In
             </button>
         </form>
         
-        <p class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400 relative z-10">
+        <p class="mt-6 text-center text-sm text-gray-200 font-medium relative z-10" style="text-shadow: 0 1px 4px rgba(0,0,0,0.6);">
             Don't have an account? 
-            <a href="{{ url_for('signup') }}" class="font-semibold text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 transition-colors">Create one</a>
+            <a href="{{ url_for('signup') }}" class="font-bold text-white hover:text-indigo-300 underline decoration-indigo-400/50 underline-offset-4 transition-colors">Create one</a>
         </p>
     </div>
 </div>
