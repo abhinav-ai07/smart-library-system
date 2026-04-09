@@ -1,35 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="w-full max-w-6xl mx-auto px-6 py-12 flex flex-col items-center min-h-[calc(100vh-80px)] justify-center relative">
+<div class="w-full max-w-6xl mx-auto px-6 pb-12 flex flex-col items-center min-h-[calc(100vh-100px)] justify-end relative">
     
     <!-- Adaptive Readability Background Overlay -->
     <div class="absolute inset-y-0 inset-x-[-5%] md:inset-x-[-15%] bg-gradient-to-b from-black/0 via-black/25 to-black/30 rounded-[100px] blur-[80px] z-[-1] pointer-events-none"></div>
     
-    <!-- Hero Section -->
-    <div class="text-center mb-16 opacity-0 animate-slide-up" style="animation-delay: 0.1s;">
-        <div class="inline-block relative">
-            <h1 class="text-5xl md:text-7xl font-extrabold text-[#ffffff] mb-4 tracking-tight drop-shadow-2xl">
-                Smart Library System
-            </h1>
-        </div>
-        <p class="text-xl md:text-2xl text-gray-200 font-light mb-8 max-w-2xl mx-auto drop-shadow-md">
-            Your personalized academic assistant
-        </p>
-        
-        <!-- Feature Line -->
-        <div class="flex flex-wrap justify-center gap-4 md:gap-8 text-sm md:text-base font-medium text-primary-200">
-            <div class="flex items-center gap-2 bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/5 shadow-lg">
-                <ion-icon name="analytics-outline" class="text-primary text-xl"></ion-icon> Track learning
-            </div>
-            <div class="flex items-center gap-2 bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/5 shadow-lg">
-                <ion-icon name="compass-outline" class="text-secondary text-xl"></ion-icon> Discover recommendations
-            </div>
-            <div class="flex items-center gap-2 bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/5 shadow-lg">
-                <ion-icon name="git-network-outline" class="text-purple-400 text-xl"></ion-icon> Follow study path
-            </div>
-        </div>
-    </div>
+    <!-- Central area cleared so video animation is fully visible -->
     
     <!-- Action Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 w-full opacity-0 animate-slide-up" style="animation-delay: 0.3s;">

@@ -79,29 +79,31 @@
     <div class="premium-glow"></div>
     
     {% if session.get('username') %}
-    <!-- Top Navbar -->
-    <nav class="glass-panel sticky top-0 z-50 px-6 py-4 flex justify-between items-center transition-all duration-300 border-b border-white/5">
-        <div class="flex items-center gap-4">
-            <a href="{{ url_for('home') }}" class="text-white hover:text-primary transition flex items-center group">
-                <div class="p-2 bg-white/5 rounded-lg group-hover:bg-primary/20 transition backdrop-blur-md mr-3">
-                    <ion-icon name="library-outline" class="text-xl"></ion-icon>
-                </div>
-                <span class="font-bold text-xl tracking-wide hidden sm:block">SLibrary</span>
-            </a>
-            <div class="h-6 w-px bg-white/20 mx-2 hidden sm:block"></div>
-            <p class="text-gray-300 text-sm hidden sm:block">Hello, Welcome Back <span class="text-white font-semibold">{{ session.get('username') }}</span> 👋</p>
-        </div>
+    <!-- Floating Minimal Navbar Split -->
+    <div class="fixed top-6 left-0 w-full px-6 md:px-10 z-50 pointer-events-none flex justify-between items-start">
+        <!-- Logo Left -->
+        <a href="{{ url_for('home') }}" class="pointer-events-auto glass-panel px-5 py-2.5 rounded-full flex items-center group transition-all duration-300 hover:shadow-[0_4px_20px_rgba(79,70,229,0.3)] border border-white/10 bg-black/40 backdrop-blur-xl">
+            <div class="p-2 bg-gradient-to-br from-primary/30 to-purple-600/30 rounded-full group-hover:scale-110 transition-transform mr-3 border border-white/10 shadow-inner">
+                <ion-icon name="library" class="text-xl text-white"></ion-icon>
+            </div>
+            <span class="font-extrabold text-lg tracking-wider hidden sm:block bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400 drop-shadow-md">SLIBRARY</span>
+        </a>
         
-        <div class="flex items-center gap-4 relative">
-            <a href="{{ url_for('home') }}" class="p-2 text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition" title="Dashboard">
-                <ion-icon name="home-outline" class="text-xl"></ion-icon>
+        <!-- Icons Right -->
+        <div class="pointer-events-auto glass-panel px-3 py-2 rounded-full flex items-center gap-2 border border-white/10 bg-black/40 backdrop-blur-xl transition-all duration-300 hover:shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+            <a href="{{ url_for('home') }}" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 text-gray-300 hover:text-white hover:bg-primary/20 hover:scale-110 transition-all border border-transparent hover:border-primary/30" title="Dashboard">
+                <ion-icon name="home" class="text-lg"></ion-icon>
             </a>
-            <a href="{{ url_for('logout') }}" class="group flex items-center gap-2 px-4 py-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition-all border border-red-500/20 ml-2">
-                <ion-icon name="log-out-outline" class="text-lg group-hover:-translate-x-1 transition-transform"></ion-icon> 
-                <span class="text-sm font-medium hidden sm:block">Logout</span>
+            <a href="{{ url_for('search') }}" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 text-gray-300 hover:text-white hover:bg-secondary/20 hover:scale-110 transition-all border border-transparent hover:border-secondary/30" title="Search Books">
+                <ion-icon name="search" class="text-lg"></ion-icon>
+            </a>
+            <div class="h-6 w-px bg-white/10 mx-1 hidden sm:block"></div>
+            <a href="{{ url_for('logout') }}" class="group flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition-all border border-red-500/20 shadow-[0_0_10px_rgba(239,68,68,0.1)] ml-1">
+                <ion-icon name="log-out" class="text-lg group-hover:-translate-x-1 transition-transform"></ion-icon> 
+                <span class="text-sm font-semibold hidden sm:block">Logout</span>
             </a>
         </div>
-    </nav>
+    </div>
     {% endif %}
     
     <!-- Main Content -->

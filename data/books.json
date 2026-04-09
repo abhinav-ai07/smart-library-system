@@ -1,114 +1,42 @@
 [
-    {
-        "id": "1",
-        "title": "Introduction to Algorithms",
-        "author": "Thomas H. Cormen",
-        "genre": "DSA",
-        "level": "Intermediate",
-        "available": true
-    },
-    {
-        "id": "2",
-        "title": "Data Structures and Algorithms in Python",
-        "author": "Michael T. Goodrich",
-        "genre": "DSA",
-        "level": "Beginner",
-        "available": true
-    },
-    {
-        "id": "3",
-        "title": "Advanced Data Structures",
-        "author": "Peter Brass",
-        "genre": "DSA",
-        "level": "Advanced",
-        "available": false
-    },
-    {
-        "id": "4",
-        "title": "Artificial Intelligence: A Modern Approach",
-        "author": "Stuart Russell, Peter Norvig",
-        "genre": "AI",
-        "level": "Intermediate",
-        "available": true
-    },
-    {
-        "id": "5",
-        "title": "Deep Learning",
-        "author": "Ian Goodfellow",
-        "genre": "AI",
-        "level": "Advanced",
-        "available": true
-    },
-    {
-        "id": "6",
-        "title": "Grokking Deep Learning",
-        "author": "Andrew W. Trask",
-        "genre": "AI",
-        "level": "Beginner",
-        "available": true
-    },
-    {
-        "id": "7",
-        "title": "Concrete Mathematics",
-        "author": "Ronald L. Graham",
-        "genre": "Maths",
-        "level": "Intermediate",
-        "available": true
-    },
-    {
-        "id": "8",
-        "title": "Calculus",
-        "author": "James Stewart",
-        "genre": "Maths",
-        "level": "Beginner",
-        "available": true
-    },
-    {
-        "id": "9",
-        "title": "Topology",
-        "author": "James Munkres",
-        "genre": "Maths",
-        "level": "Advanced",
-        "available": true
-    },
-    {
-        "id": "10",
-        "title": "The Elements of Statistical Learning",
-        "author": "Trevor Hastie",
-        "genre": "Statistics",
-        "level": "Advanced",
-        "available": true
-    },
-    {
-        "id": "11",
-        "title": "Introduction to Statistical Learning",
-        "author": "Gareth James",
-        "genre": "Statistics",
-        "level": "Intermediate",
-        "available": true
-    },
-    {
-        "id": "12",
-        "title": "Statistics for Dummies",
-        "author": "Deborah J. Rumsey",
-        "genre": "Statistics",
-        "level": "Beginner",
-        "available": true
-    },
-    {
-        "id": "13",
-        "title": "Clean Code",
-        "author": "Robert C. Martin",
-        "genre": "Software Engineering",
-        "level": "Intermediate",
-        "available": true
-    },
-    {
-        "id": "14",
-        "title": "Design Patterns",
-        "author": "Erich Gamma",
-        "genre": "Software Engineering",
-        "level": "Advanced",
-        "available": true
-    }
+    {"id":"1","title":"Artificial Intelligence: A Modern Approach","author":"Stuart Russell, Peter Norvig","genre":"AI","level":"Intermediate","available":true},
+    {"id":"2","title":"Deep Learning","author":"Ian Goodfellow","genre":"AI","level":"Advanced","available":true},
+    {"id":"3","title":"Machine Learning","author":"Tom M. Mitchell","genre":"AI","level":"Intermediate","available":true},
+    {"id":"4","title":"Pattern Recognition and Machine Learning","author":"Christopher Bishop","genre":"AI","level":"Advanced","available":true},
+    {"id":"5","title":"Grokking Machine Learning","author":"Luis Serrano","genre":"AI","level":"Beginner","available":true},
+    {"id":"6","title":"Hands-On Machine Learning with Scikit-Learn","author":"Aurélien Géron","genre":"AI","level":"Intermediate","available":true},
+    {"id":"7","title":"AI Superpowers","author":"Kai-Fu Lee","genre":"AI","level":"Beginner","available":true},
+    {"id":"8","title":"Life 3.0","author":"Max Tegmark","genre":"AI","level":"Beginner","available":true},
+    {"id":"9","title":"Artificial Intelligence Basics","author":"Tom Taulli","genre":"AI","level":"Beginner","available":true},
+    {"id":"10","title":"Prediction Machines","author":"Ajay Agrawal","genre":"AI","level":"Intermediate","available":true},
+    {"id":"11","title":"You Look Like a Thing and I Love You","author":"Janelle Shane","genre":"AI","level":"Beginner","available":true},
+    {"id":"12","title":"Machine Learning Yearning","author":"Andrew Ng","genre":"AI","level":"Intermediate","available":true},
+    {"id":"13","title":"Reinforcement Learning: An Introduction","author":"Richard Sutton","genre":"AI","level":"Advanced","available":true},
+    {"id":"14","title":"Speech and Language Processing","author":"Daniel Jurafsky","genre":"AI","level":"Advanced","available":true},
+    {"id":"15","title":"Deep Reinforcement Learning Hands-On","author":"Maxim Lapan","genre":"AI","level":"Advanced","available":true},
+    {"id":"16","title":"Artificial Intelligence for Humans","author":"Jeff Heaton","genre":"AI","level":"Beginner","available":true},
+    {"id":"17","title":"The Hundred-Page Machine Learning Book","author":"Andriy Burkov","genre":"AI","level":"Beginner","available":true},
+    {"id":"18","title":"Machine Learning for Absolute Beginners","author":"Oliver Theobald","genre":"AI","level":"Beginner","available":true},
+    {"id":"19","title":"AI 2041","author":"Kai-Fu Lee","genre":"AI","level":"Beginner","available":true},
+    {"id":"20","title":"Human Compatible","author":"Stuart Russell","genre":"AI","level":"Intermediate","available":true},
+    {"id":"21","title":"Artificial Intelligence Engines","author":"James V. Stone","genre":"AI","level":"Intermediate","available":true},
+    {"id":"22","title":"Machine Learning: A Probabilistic Perspective","author":"Kevin Murphy","genre":"AI","level":"Advanced","available":true},
+    {"id":"23","title":"Neural Networks and Deep Learning","author":"Charu Aggarwal","genre":"AI","level":"Advanced","available":true},
+    {"id":"24","title":"Deep Learning with Python","author":"Francois Chollet","genre":"AI","level":"Intermediate","available":true},
+    {"id":"25","title":"AI for Everyone","author":"Andrew Ng","genre":"AI","level":"Beginner","available":true},
+    {"id":"26","title":"Python Machine Learning","author":"Sebastian Raschka","genre":"AI","level":"Intermediate","available":true},
+    {"id":"27","title":"Building Machine Learning Systems","author":"Willi Richert","genre":"AI","level":"Intermediate","available":true},
+    {"id":"28","title":"Machine Learning Engineering","author":"Andriy Burkov","genre":"AI","level":"Advanced","available":true},
+    {"id":"29","title":"Artificial Intelligence Foundations","author":"Matt Taddy","genre":"AI","level":"Intermediate","available":true},
+    {"id":"30","title":"Deep Learning Illustrated","author":"Jon Krohn","genre":"AI","level":"Beginner","available":true},
+    {"id":"31","title":"Practical Deep Learning for Coders","author":"Jeremy Howard","genre":"AI","level":"Intermediate","available":true},
+    {"id":"32","title":"AI Basics for Beginners","author":"Alex Bennett","genre":"AI","level":"Beginner","available":true},
+    {"id":"33","title":"Applied Artificial Intelligence","author":"Mariya Yao","genre":"AI","level":"Intermediate","available":true},
+    {"id":"34","title":"Artificial Intelligence with Python","author":"Prateek Joshi","genre":"AI","level":"Intermediate","available":true},
+    {"id":"35","title":"Mastering Machine Learning","author":"Gavin Hackeling","genre":"AI","level":"Advanced","available":true},
+    {"id":"36","title":"Hands-On Deep Learning","author":"Amita Kapoor","genre":"AI","level":"Advanced","available":true},
+    {"id":"37","title":"The AI Advantage","author":"Thomas Davenport","genre":"AI","level":"Beginner","available":true},
+    {"id":"38","title":"Artificial Intelligence in Practice","author":"Bernard Marr","genre":"AI","level":"Beginner","available":true},
+    {"id":"39","title":"Deep Learning for Beginners","author":"Jason Brownlee","genre":"AI","level":"Beginner","available":true},
+    {"id":"40","title":"Machine Learning with PyTorch","author":"Sebastian Raschka","genre":"AI","level":"Intermediate","available":true}
 ]
