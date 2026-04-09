@@ -124,20 +124,7 @@ def api_search():
 
 @app.route('/study-path')
 def study_path():
-    if 'username' not in session: return redirect(url_for('login'))
-    progress_data = load_data(PROGRESS_FILE, dict)
-    user_progress = progress_data.get(session['username'], {})
-    # Render with available books logically grouped
-    gen_grouped = {}
-    for b in books_list:
-        g = b['genre']
-        if g not in ["DSA", "AI", "Maths", "Statistics"]:
-            continue
-        if g not in gen_grouped:
-            gen_grouped[g] = []
-        gen_grouped[g].append(b)
-    
-    return render_template('study_path.html', paths=gen_grouped, progress=user_progress)
+    return render_template('study_path.html')
 
 @app.route('/api/progress/update', methods=['POST'])
 def update_progress():
@@ -252,6 +239,80 @@ def return_book():
     save_user_history_stack(HISTORY_FILE, session['username'], stack)
     
     return jsonify({"status":"success", "msg": f"Book '{book['title']}' returned successfully."})
+
+import urllib.request
+@app.route('/api/new_generate_pathway', methods=['POST'])
+def new_generate_pathway():
+    data = request.json
+    level = data.get('level', 'Beginner')
+    topics = data.get('topics', [])
+    goal = data.get('goal', 'Just Learning')
+    time_avail = data.get('time', '1-3 hrs/day')
+    style = data.get('style', 'Mixed')
+    api_key = data.get('api_key', '')
+    
+    # 1. Rule-based book matching mapping
+    pathway = []
+    
+    for t in topics:
+        t_lower = t.lower()
+        topic_books = [b for b in books_list if t_lower in b.get('title', '').lower() or t_lower in b.get('genre', '').lower()]
+        
+        # filter by level
+        level_books = [b for b in topic_books if b.get('level') == level]
+        
+        if not level_books:
+            level_books = topic_books # fallback to any level if none perfectly matches
+            
+        if level_books:
+            chosen_book = level_books[0]
+            is_alt = False
+            
+            if not chosen_book.get('available', True):
+                # Unavailable! Find alternative
+                alt_book = library_graph.get_alternative(chosen_book['id'])
+                if alt_book:
+                    chosen_book = alt_book
+                    is_alt = True
+                else:
+                    pass 
+                
+            pathway.append({
+                "topic": t,
+                "book": chosen_book,
+                "is_alternative": is_alt
+            })
+
+    # If no books found at all, just fall back to some general books
+    if not pathway:
+        general_books = [b for b in books_list if b.get('level') == level]
+        if general_books:
+            b = general_books[0]
+            alt = False
+            if not b.get('available', True):
+                b2 = library_graph.get_alternative(b['id'])
+                if b2: b = b2; alt = True
+            pathway.append({"topic": "General Foundation", "book": b, "is_alternative": alt})
+            
+    # 2. AI Enhancement
+    ai_message = ""
+    if api_key:
+        try:
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
+            prompt = f"The student is a {level} learning {', '.join(topics)}. Their goal is {goal}. They learn {style} and have {time_avail}. Write a short, highly motivating 2-paragraph message guiding them, and estimating how long this path will take. Do not use markdown."
+            payload = {"contents": [{"parts": [{"text": prompt}]}]}
+            req = urllib.request.Request(url, data=json.dumps(payload).encode('utf-8'), headers={"Content-Type": "application/json"}, method='POST')
+            with urllib.request.urlopen(req) as response:
+                result = json.loads(response.read().decode('utf-8'))
+                ai_message = result['candidates'][0]['content']['parts'][0]['text']
+        except Exception as e:
+            # Silently fail AI enhancement and just return the pathway
+            pass
+            
+    return jsonify({
+        "pathway": pathway,
+        "ai_message": ai_message
+    })
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
