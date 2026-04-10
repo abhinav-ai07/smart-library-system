@@ -8,7 +8,10 @@ from utils.trie import build_trie
 from utils.graph import Graph
 from utils.stack import load_user_history_stack, save_user_history_stack
 
-app = Flask(__name__)
+app = Flask(__name__, 
+            template_folder='../frontend/templates', 
+            static_folder='../frontend/static',
+            static_url_path='/static')
 app.secret_key = 'super_secret_key_for_smart_library'
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
