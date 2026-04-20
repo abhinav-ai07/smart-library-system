@@ -7,7 +7,10 @@ from datetime import datetime
 from utils.trie import build_trie
 from utils.graph import Graph
 from utils.stack import load_user_history_stack, save_user_history_stack
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 app = Flask(__name__, 
             template_folder='../frontend/templates', 
             static_folder='../frontend/static',
@@ -244,6 +247,7 @@ def return_book():
     return jsonify({"status":"success", "msg": f"Book '{book['title']}' returned successfully."})
 
 import urllib.request
+print("GEMINI KEY:", os.environ.get("GEMINI_API_KEY"))
 @app.route('/api/new_generate_pathway', methods=['POST'])
 def new_generate_pathway():
     data = request.json
@@ -252,70 +256,122 @@ def new_generate_pathway():
     goal = data.get('goal', 'Just Learning')
     time_avail = data.get('time', '1-3 hrs/day')
     style = data.get('style', 'Mixed')
-    api_key = data.get('api_key', '')
-    
-    # 1. Rule-based book matching mapping
-    pathway = []
-    
-    for t in topics:
-        t_lower = t.lower()
-        topic_books = [b for b in books_list if t_lower in b.get('title', '').lower() or t_lower in b.get('genre', '').lower()]
-        
-        # filter by level
-        level_books = [b for b in topic_books if b.get('level') == level]
-        
-        if not level_books:
-            level_books = topic_books # fallback to any level if none perfectly matches
-            
-        if level_books:
-            chosen_book = level_books[0]
-            is_alt = False
-            
-            if not chosen_book.get('available', True):
-                # Unavailable! Find alternative
-                alt_book = library_graph.get_alternative(chosen_book['id'])
-                if alt_book:
-                    chosen_book = alt_book
-                    is_alt = True
-                else:
-                    pass 
-                
-            pathway.append({
-                "topic": t,
-                "book": chosen_book,
-                "is_alternative": is_alt
-            })
+    deadline = data.get('deadline', 'N/A')
 
-    # If no books found at all, just fall back to some general books
-    if not pathway:
-        general_books = [b for b in books_list if b.get('level') == level]
-        if general_books:
-            b = general_books[0]
-            alt = False
-            if not b.get('available', True):
-                b2 = library_graph.get_alternative(b['id'])
-                if b2: b = b2; alt = True
-            pathway.append({"topic": "General Foundation", "book": b, "is_alternative": alt})
-            
-    # 2. AI Enhancement
-    ai_message = ""
-    if api_key:
-        try:
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
-            prompt = f"The student is a {level} learning {', '.join(topics)}. Their goal is {goal}. They learn {style} and have {time_avail}. Write a short, highly motivating 2-paragraph message guiding them, and estimating how long this path will take. Do not use markdown."
-            payload = {"contents": [{"parts": [{"text": prompt}]}]}
-            req = urllib.request.Request(url, data=json.dumps(payload).encode('utf-8'), headers={"Content-Type": "application/json"}, method='POST')
-            with urllib.request.urlopen(req) as response:
-                result = json.loads(response.read().decode('utf-8'))
-                ai_message = result['candidates'][0]['content']['parts'][0]['text']
-        except Exception as e:
-            # Silently fail AI enhancement and just return the pathway
-            pass
-            
-    return jsonify({
-        "pathway": pathway,
-        "ai_message": ai_message
-    })
+    # 🔹 Filter books
+    relevant_books = []
+    topics_lower = [t.lower() for t in topics]
+    goal_lower = goal.lower()
+
+    for b in books_list:
+        b_title = b.get('title', '').lower()
+        b_genre = b.get('genre', '').lower()
+
+        if (
+            any(t in b_title or t in b_genre for t in topics_lower)
+            or goal_lower in b_title
+            or goal_lower in b_genre
+        ):
+            relevant_books.append(b)
+
+    if not relevant_books:
+        relevant_books = books_list[:5]
+
+    relevant_books = relevant_books[:10]
+
+    books_context = json.dumps([{
+        "title": b.get("title"),
+        "author": b.get("author", "Unknown"),
+        "genre": b.get("genre", "")
+    } for b in relevant_books])
+
+    # 🔹 Prompt
+    prompt = f"""
+    You are an expert AI study planner. 
+    The student wants to study exactly these topics: {', '.join(topics)}.
+    Their primary goal is: {goal}.
+    Skill level: {level}.
+    Time availability: {time_avail}.
+
+    Relevant books available in the library:
+    {books_context}
+
+    You MUST generate a highly structured roadmap.
+    You MUST PRIORITIZE using the books from the library. Only add external resources if absolutely needed.
+    You MUST respond with a valid JSON object strictly following this structure:
+    {{
+        "roadmap": [
+            {{
+                "week": "Week 1",
+                "topics": "Primary topics covered",
+                "subtopics": "Specific subtopics",
+                "books": "Library books to use (Title by Author)",
+                "resources": "External resources if needed",
+                "tasks": "Specific tasks to complete",
+                "outcome": "Expected outcome of the week"
+            }}
+        ],
+        "final_section": {{
+            "mistakes": "Common mistakes to avoid",
+            "tips": "Tips for consistency",
+            "motivation": "A highly motivating closing message"
+        }}
+    }}
+    Do NOT wrap your response in markdown code blocks, just raw JSON.
+    """
+
+    try:
+        api_key = os.environ.get("GEMINI_API_KEY", "").strip()
+
+        if not api_key:
+            return jsonify({"status": "error", "msg": "API key missing"}), 500
+
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key={api_key}"
+
+        payload = {
+            "contents": [{"parts": [{"text": prompt}]}],
+            "generationConfig": {
+                "responseMimeType": "application/json",
+                "temperature": 0.7
+            }
+        }
+
+        req = urllib.request.Request(
+            url,
+            data=json.dumps(payload).encode('utf-8'),
+            headers={"Content-Type": "application/json"},
+            method='POST'
+        )
+
+        with urllib.request.urlopen(req) as response:
+            result = json.loads(response.read().decode('utf-8'))
+
+        if 'candidates' not in result:
+            return jsonify({"status": "error", "msg": "No response from AI."}), 500
+
+        result_content = result['candidates'][0]['content']['parts'][0].get('text', '')
+        result_json = json.loads(result_content)
+
+        return jsonify({
+            "status": "success",
+            "data": result_json
+        })
+
+    except Exception as e:
+        import traceback as tb
+        import urllib.error as ue
+
+        tb.print_exc()
+
+        if isinstance(e, ue.HTTPError):
+            try:
+                error_body = e.read().decode('utf-8')
+                print("Google API Error:", error_body)
+                return jsonify({"status": "error", "msg": error_body}), 500
+            except:
+                pass
+
+        return jsonify({"status": "error", "msg": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
