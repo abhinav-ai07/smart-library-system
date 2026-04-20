@@ -53,9 +53,12 @@
             text-shadow: 0 2px 8px rgba(0,0,0,0.6);
         }
         
-        /* Video Enhancements */
-        .video-enhanced {
-            filter: brightness(1.08) contrast(1.05) saturate(1.1);
+        /* Photo Enhancements */
+        .photo-enhanced {
+            /* Keeps the image crisp, darkens slightly for text readability */
+            filter: brightness(0.55) contrast(1.15) saturate(1.1);
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
         }
         
         /* Premium Soft Glow */
@@ -70,10 +73,8 @@
 </head>
 <body class="bg-gray-900 text-gray-200 transition-colors duration-300 antialiased min-h-screen flex flex-col relative overflow-x-hidden text-glow">
     
-    <!-- Full-Screen Video Background -->
-    <video autoplay loop muted playsinline class="fixed inset-0 w-full h-full object-cover z-[-3] video-enhanced">
-        <source src="{{ url_for('static', filename='videos/book-animation2.mp4') }}" type="video/mp4">
-    </video>
+    <!-- Full-Screen High-Def Photo Background -->
+    <img src="{{ url_for('static', filename='assets/book-bg.jpg') }}" alt="Library Background" class="fixed inset-0 w-full h-full object-cover z-[-3] photo-enhanced">
     
     <!-- Premium Soft Glow Over Video -->
     <div class="premium-glow"></div>

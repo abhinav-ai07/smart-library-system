@@ -1,64 +1,70 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="w-full max-w-6xl mx-auto px-6 pb-12 flex flex-col items-center min-h-[calc(100vh-100px)] justify-end relative">
+<div class="w-full max-w-[90rem] mx-auto px-6 pb-32 pt-8 flex flex-col items-center min-h-[calc(100vh-100px)] justify-center relative space-y-16">
     
     <!-- Adaptive Readability Background Overlay -->
-    <div class="absolute inset-y-0 inset-x-[-5%] md:inset-x-[-15%] bg-gradient-to-b from-black/0 via-black/25 to-black/30 rounded-[100px] blur-[80px] z-[-1] pointer-events-none"></div>
+    <div class="absolute inset-y-0 inset-x-[-5%] md:inset-x-[-15%] bg-gradient-to-b from-black/0 via-black/40 to-black/10 rounded-[100px] blur-[100px] z-[-1] pointer-events-none"></div>
     
-    <!-- Central area cleared so video animation is fully visible -->
-    
+    <!-- Greeting Section -->
+    <div class="w-full text-center z-10 animate-fade-in mt-[-4rem] mb-6">
+        <h1 class="text-5xl md:text-6xl font-extrabold text-[#ffffff] tracking-tight text-glow mb-4">
+            Hey <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 to-purple-300">{{ user }}</span> 👋😎
+        </h1>
+        <p class="text-xl md:text-2xl text-gray-200 text-glow font-medium">Ready to level up your brain today? 📚⚡ Let’s gooo!</p>
+    </div>
+
     <!-- Action Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 w-full opacity-0 animate-slide-up" style="animation-delay: 0.3s;">
+    <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-8 w-full opacity-0 animate-slide-up max-w-7xl" style="animation-delay: 0.3s;">
         
         <!-- Search & Issue -->
-        <a href="{{ url_for('search') }}" class="group glass-panel rounded-xl p-6 relative overflow-hidden hover:-translate-y-2 transition-all duration-300 hover:shadow-[0_0_25px_rgba(79,70,229,0.5)] hover:border-primary/60 hover:bg-white/5 active:scale-95 flex flex-col items-center text-center">
+        <a href="{{ url_for('search') }}" class="group glass-panel rounded-2xl p-8 min-h-[260px] relative overflow-hidden hover:-translate-y-3 transition-all duration-300 hover:shadow-[0_0_35px_rgba(79,70,229,0.4)] hover:border-primary/60 hover:bg-white/10 active:scale-95 flex flex-col items-center justify-center text-center">
             <div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <div class="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center mb-4 text-primary text-3xl group-hover:scale-110 group-hover:bg-primary/40 group-hover:text-white transition-all shadow-[0_0_15px_rgba(79,70,229,0.2)]">
+            <div class="w-20 h-20 rounded-full bg-primary/20 flex items-center justify-center mb-5 text-primary text-4xl group-hover:scale-110 group-hover:bg-primary/50 group-hover:text-white transition-all shadow-[0_0_20px_rgba(79,70,229,0.25)]">
                 <ion-icon name="search"></ion-icon>
             </div>
-            <h3 class="text-[#ffffff] font-semibold text-lg mb-2 relative z-10 transition-colors group-hover:text-white">Search & Issue</h3>
-            <p class="text-gray-300 text-sm relative z-10">Find and borrow your next favorite book instantly.</p>
+            <h3 class="text-[#ffffff] font-bold text-xl mb-3 relative z-10 transition-colors group-hover:text-white">Search & Issue</h3>
+            <p class="text-gray-200 text-sm relative z-10 font-medium">Find and borrow your next favorite book instantly.</p>
         </a>
 
         <!-- Return Book -->
-        <a href="{{ url_for('home') }}" onclick="alert('Return Book feature coming soon!'); return false;" class="group glass-panel rounded-xl p-6 relative overflow-hidden hover:-translate-y-2 transition-all duration-300 hover:shadow-[0_0_25px_rgba(234,88,12,0.5)] hover:border-orange-500/60 hover:bg-white/5 active:scale-95 flex flex-col items-center text-center">
+        <a href="{{ url_for('my_books') }}" class="group glass-panel rounded-2xl p-8 min-h-[260px] relative overflow-hidden hover:-translate-y-3 transition-all duration-300 hover:shadow-[0_0_35px_rgba(234,88,12,0.4)] hover:border-orange-500/60 hover:bg-white/10 active:scale-95 flex flex-col items-center justify-center text-center">
             <div class="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <div class="w-16 h-16 rounded-full bg-orange-500/20 flex items-center justify-center mb-4 text-orange-400 text-3xl group-hover:scale-110 group-hover:bg-orange-500/40 group-hover:text-white transition-all shadow-[0_0_15px_rgba(234,88,12,0.2)]">
+            <div class="w-20 h-20 rounded-full bg-orange-500/20 flex items-center justify-center mb-5 text-orange-400 text-4xl group-hover:scale-110 group-hover:bg-orange-500/50 group-hover:text-white transition-all shadow-[0_0_20px_rgba(234,88,12,0.25)]">
                 <ion-icon name="return-down-back"></ion-icon>
             </div>
-            <h3 class="text-[#ffffff] font-semibold text-lg mb-2 relative z-10 transition-colors group-hover:text-white">Return Book</h3>
-            <p class="text-gray-300 text-sm relative z-10">Quickly return books you have finished reading.</p>
+            <h3 class="text-[#ffffff] font-bold text-xl mb-3 relative z-10 transition-colors group-hover:text-white">Return Book</h3>
+            <p class="text-gray-200 text-sm relative z-10 font-medium">Quickly return books you have finished reading.</p>
         </a>
 
         <!-- History -->
-        <a href="{{ url_for('history') }}" class="group glass-panel rounded-xl p-6 relative overflow-hidden hover:-translate-y-2 transition-all duration-300 hover:shadow-[0_0_25px_rgba(16,185,129,0.5)] hover:border-secondary/60 hover:bg-white/5 active:scale-95 flex flex-col items-center text-center">
+        <a href="{{ url_for('history') }}" class="group glass-panel rounded-2xl p-8 min-h-[260px] relative overflow-hidden hover:-translate-y-3 transition-all duration-300 hover:shadow-[0_0_35px_rgba(16,185,129,0.4)] hover:border-secondary/60 hover:bg-white/10 active:scale-95 flex flex-col items-center justify-center text-center">
             <div class="absolute inset-0 bg-gradient-to-br from-secondary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <div class="w-16 h-16 rounded-full bg-secondary/20 flex items-center justify-center mb-4 text-secondary text-3xl group-hover:scale-110 group-hover:bg-secondary/40 group-hover:text-white transition-all shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+            <div class="w-20 h-20 rounded-full bg-secondary/20 flex items-center justify-center mb-5 text-secondary text-4xl group-hover:scale-110 group-hover:bg-secondary/50 group-hover:text-white transition-all shadow-[0_0_20px_rgba(16,185,129,0.25)]">
                 <ion-icon name="time"></ion-icon>
             </div>
-            <h3 class="text-[#ffffff] font-semibold text-lg mb-2 relative z-10 transition-colors group-hover:text-white">History</h3>
-            <p class="text-gray-300 text-sm relative z-10">Review your past reads and overall activity log.</p>
+            <h3 class="text-[#ffffff] font-bold text-xl mb-3 relative z-10 transition-colors group-hover:text-white">History</h3>
+            <p class="text-gray-200 text-sm relative z-10 font-medium">Review your past reads and overall activity log.</p>
         </a>
         
         <!-- Recommendations -->
-        <a href="{{ url_for('recommend') }}" class="group glass-panel rounded-xl p-6 relative overflow-hidden hover:-translate-y-2 transition-all duration-300 hover:shadow-[0_0_25px_rgba(234,179,8,0.5)] hover:border-yellow-500/60 hover:bg-white/5 active:scale-95 flex flex-col items-center text-center">
+        <a href="{{ url_for('recommend') }}" class="group glass-panel rounded-2xl p-8 min-h-[260px] relative overflow-hidden hover:-translate-y-3 transition-all duration-300 hover:shadow-[0_0_35px_rgba(234,179,8,0.4)] hover:border-yellow-500/60 hover:bg-white/10 active:scale-95 flex flex-col items-center justify-center text-center">
             <div class="absolute inset-0 bg-gradient-to-br from-yellow-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <div class="w-16 h-16 rounded-full bg-yellow-500/20 flex items-center justify-center mb-4 text-yellow-400 text-3xl group-hover:scale-110 group-hover:bg-yellow-500/40 group-hover:text-white transition-all shadow-[0_0_15px_rgba(234,179,8,0.2)]">
+            <div class="w-20 h-20 rounded-full bg-yellow-500/20 flex items-center justify-center mb-5 text-yellow-400 text-4xl group-hover:scale-110 group-hover:bg-yellow-500/50 group-hover:text-white transition-all shadow-[0_0_20px_rgba(234,179,8,0.25)]">
                 <ion-icon name="bulb"></ion-icon>
             </div>
-            <h3 class="text-[#ffffff] font-semibold text-lg mb-2 relative z-10 transition-colors group-hover:text-white">Recommendations</h3>
-            <p class="text-gray-300 text-sm relative z-10">Get graph-based suggestions tailored to your taste.</p>
+            <h3 class="text-[#ffffff] font-bold text-xl mb-3 relative z-10 transition-colors group-hover:text-white">Recommendations</h3>
+            <p class="text-gray-200 text-sm relative z-10 font-medium">Get personalized book suggestions tailored to your taste.</p>
         </a>
         
         <!-- Study Path -->
-        <a href="{{ url_for('study_path') }}" class="group glass-panel rounded-xl p-6 relative overflow-hidden hover:-translate-y-2 transition-all duration-300 hover:shadow-[0_0_25px_rgba(168,85,247,0.5)] hover:border-purple-500/60 hover:bg-white/5 active:scale-95 flex flex-col items-center text-center">
+        <a href="{{ url_for('study_path') }}" class="group glass-panel rounded-2xl p-8 min-h-[260px] relative overflow-hidden hover:-translate-y-3 transition-all duration-300 hover:shadow-[0_0_35px_rgba(168,85,247,0.4)] hover:border-purple-500/60 hover:bg-white/10 active:scale-95 flex flex-col items-center justify-center text-center">
             <div class="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <div class="w-16 h-16 rounded-full bg-purple-500/20 flex items-center justify-center mb-4 text-purple-400 text-3xl group-hover:scale-110 group-hover:bg-purple-500/40 group-hover:text-white transition-all shadow-[0_0_15px_rgba(168,85,247,0.2)]">
+            <div class="w-20 h-20 rounded-full bg-purple-500/20 flex items-center justify-center mb-5 text-purple-400 text-4xl group-hover:scale-110 group-hover:bg-purple-500/50 group-hover:text-white transition-all shadow-[0_0_20px_rgba(168,85,247,0.25)]">
                 <ion-icon name="git-network"></ion-icon>
             </div>
-            <h3 class="text-[#ffffff] font-semibold text-lg mb-2 relative z-10 transition-colors group-hover:text-white">Study Path</h3>
-            <p class="text-gray-300 text-sm relative z-10">Advance through curated learning roadmaps.</p>
+            <h3 class="text-[#ffffff] font-bold text-xl mb-3 relative z-10 transition-colors group-hover:text-white">Study Path</h3>
+            <p class="text-gray-200 text-sm relative z-10 font-medium">Advance through curated learning roadmaps.</p>
         </a>
 
     </div>

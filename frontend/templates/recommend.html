@@ -1,53 +1,56 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="px-8 py-10 max-w-6xl mx-auto">
-    <header class="mb-10 text-center">
-        <h1 class="text-4xl font-extrabold text-gray-900 dark:text-white mb-4">Smart Recommendations</h1>
-        <p class="text-gray-500 dark:text-gray-400">Powered by Graph Data Structure. Connecting genres and themes based on your activity.</p>
-    </header>
+<div class="px-6 py-10 w-full max-w-6xl mx-auto flex flex-col items-center justify-center min-h-[calc(100vh-100px)]">
+    <!-- Centered Glassy Container -->
+    <div class="w-full glass-panel bg-black/50 backdrop-blur-3xl border border-white/15 p-8 md:p-12 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.6)] relative overflow-hidden">
+        <header class="mb-10 text-center">
+            <h1 class="text-4xl font-extrabold text-white mb-4 text-glow">Smart Recommendations</h1>
+            <p class="text-gray-300 font-medium text-glow text-lg">Curated especially for you.</p>
+        </header>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {% for book in recommendations %}
-        <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-lg border border-gray-100 dark:border-gray-700 book-card flex flex-col relative overflow-hidden group">
-            
-            <div class="absolute -right-8 -bottom-8 opacity-5 text-9xl group-hover:scale-110 transition-transform duration-500">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
+            {% for book in recommendations %}
+            <div class="glass bg-white/5 rounded-3xl p-6 shadow-[0_4px_15px_rgba(0,0,0,0.2)] border border-white/10 book-card flex flex-col relative overflow-hidden group hover:-translate-y-2 transition-transform hover:bg-white/10">
+                
+                <div class="absolute -right-8 -bottom-8 opacity-[0.03] text-9xl group-hover:scale-110 transition-transform duration-500 text-white">
                 <ion-icon name="library"></ion-icon>
             </div>
 
-            <div class="flex justify-between items-center mb-6 relative z-10">
-                <span class="px-3 py-1 bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 rounded-lg text-xs font-bold shadow-sm uppercase tracking-wider">${{ book.genre }}</span>
-                {% if book.available %}
-                    <span class="w-3 h-3 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span>
-                {% else %}
-                    <span class="w-3 h-3 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]"></span>
-                {% endif %}
-            </div>
-            
-            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 leading-tight relative z-10">{{ book.title }}</h3>
-            <p class="text-sm text-gray-500 dark:text-gray-400 mb-6 flex-grow relative z-10"><ion-icon name="person-outline" class="mr-1"></ion-icon> {{ book.author }}</p>
-            
-            <div class="mt-auto relative z-10 border-t border-gray-100 dark:border-gray-700 pt-4">
-                <div class="flex items-center justify-between text-xs font-semibold text-gray-400 dark:text-gray-500 mb-4">
+                <div class="flex justify-between items-center mb-6 relative z-10">
+                    <span class="px-3 py-1 bg-yellow-500/20 text-yellow-300 border border-yellow-500/30 rounded-full text-xs font-bold shadow-sm uppercase tracking-wider">${{ book.genre }}</span>
+                    {% if book.available %}
+                        <span class="w-3 h-3 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span>
+                    {% else %}
+                        <span class="w-3 h-3 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]"></span>
+                    {% endif %}
+                </div>
+                
+                <h3 class="text-xl font-bold text-white mb-2 leading-tight relative z-10 shadow-sm">{{ book.title }}</h3>
+                <p class="text-sm text-gray-300 mb-6 flex-grow relative z-10 font-medium"><ion-icon name="person-outline" class="mr-1"></ion-icon> {{ book.author }}</p>
+                
+                <div class="mt-auto relative z-10 border-t border-white/10 pt-4">
+                    <div class="flex items-center justify-between text-xs font-semibold text-gray-400 mb-4">
                     <span>Level: {{ book.level }}</span>
                 </div>
 
-                {% if book.available %}
-                    <button onclick="issueBook('{{ book.id }}')" class="w-full bg-primary hover:bg-indigo-700 text-white py-3 rounded-xl transition font-medium shadow-md hover:shadow-lg flex items-center justify-center">
-                        <ion-icon name="add-circle-outline" class="mr-2 text-lg"></ion-icon> Issue Now
-                    </button>
-                {% else %}
-                    <button disabled class="w-full bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 py-3 rounded-xl cursor-not-allowed font-medium flex items-center justify-center">
-                        <ion-icon name="lock-closed-outline" class="mr-2 text-lg"></ion-icon> Currently Issued
-                    </button>
-                {% endif %}
+                    {% if book.available %}
+                        <button onclick="issueBook('{{ book.id }}')" class="w-full bg-primary/20 border border-primary/40 hover:bg-primary text-white py-3 rounded-xl transition-all font-bold shadow-md hover:shadow-[0_0_20px_rgba(79,70,229,0.5)] flex items-center justify-center">
+                            <ion-icon name="add-circle-outline" class="mr-2 text-xl"></ion-icon> Issue Now
+                        </button>
+                    {% else %}
+                        <button disabled class="w-full bg-white/5 text-gray-500 py-3 rounded-xl cursor-not-allowed font-medium flex items-center justify-center border border-white/10">
+                            <ion-icon name="lock-closed-outline" class="mr-2 text-xl"></ion-icon> Currently Issued
+                        </button>
+                    {% endif %}
             </div>
         </div>
-        {% else %}
-        <div class="col-span-1 md:col-span-3 text-center py-20">
-            <p class="text-gray-500">No recommendations available at the moment. Issue some books to get started!</p>
+            {% else %}
+            <div class="col-span-1 md:col-span-3 text-center py-20 bg-black/30 rounded-3xl border border-white/5">
+                <p class="text-gray-400 text-lg">No recommendations available at the moment. Issue some books to get started!</p>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-    </div>
+    </div> <!-- End glassy container -->
 </div>
 {% endblock %}

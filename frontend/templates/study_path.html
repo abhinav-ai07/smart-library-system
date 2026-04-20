@@ -94,31 +94,31 @@
 
                 <!-- Step 3: Topics -->
                 <div class="step-content hidden" data-step="3">
-                    <h2 class="text-3xl font-extrabold text-white mb-2">Select Preferred Topics</h2>
-                    <p class="text-gray-400 mb-6">Choose one or more topics you want to master.</p>
+                    <h2 class="text-3xl font-extrabold text-white mb-2">Select Preferred Topic</h2>
+                    <p class="text-gray-400 mb-6">Choose the primary topic you want to master.</p>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
                         <label class="cursor-pointer">
-                            <input type="checkbox" name="topic" value="Machine Learning" class="peer sr-only">
+                            <input type="radio" name="topic" value="Machine Learning" class="peer sr-only" required>
                             <div class="px-4 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 peer-checked:bg-primary/20 peer-checked:border-primary/50 transition-all text-sm font-semibold text-white text-center">Machine Learning</div>
                         </label>
                         <label class="cursor-pointer">
-                            <input type="checkbox" name="topic" value="Deep Learning" class="peer sr-only">
+                            <input type="radio" name="topic" value="Deep Learning" class="peer sr-only">
                             <div class="px-4 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 peer-checked:bg-primary/20 peer-checked:border-primary/50 transition-all text-sm font-semibold text-white text-center">Deep Learning</div>
                         </label>
                         <label class="cursor-pointer">
-                            <input type="checkbox" name="topic" value="NLP" class="peer sr-only" checked>
+                            <input type="radio" name="topic" value="NLP" class="peer sr-only">
                             <div class="px-4 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 peer-checked:bg-primary/20 peer-checked:border-primary/50 transition-all text-sm font-semibold text-white text-center">NLP</div>
                         </label>
                         <label class="cursor-pointer">
-                            <input type="checkbox" name="topic" value="Computer Vision" class="peer sr-only">
+                            <input type="radio" name="topic" value="Computer Vision" class="peer sr-only">
                             <div class="px-4 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 peer-checked:bg-primary/20 peer-checked:border-primary/50 transition-all text-sm font-semibold text-white text-center">Computer Vision</div>
                         </label>
                         <label class="cursor-pointer">
-                            <input type="checkbox" name="topic" value="Reinforcement Learning" class="peer sr-only">
+                            <input type="radio" name="topic" value="Reinforcement Learning" class="peer sr-only">
                             <div class="px-4 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 peer-checked:bg-primary/20 peer-checked:border-primary/50 transition-all text-sm font-semibold text-white text-center">RL / Robotics</div>
                         </label>
                         <label class="cursor-pointer">
-                            <input type="checkbox" name="topic" value="Math" class="peer sr-only">
+                            <input type="radio" name="topic" value="Math" class="peer sr-only">
                             <div class="px-4 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 peer-checked:bg-primary/20 peer-checked:border-primary/50 transition-all text-sm font-semibold text-white text-center">Math Fundamentals</div>
                         </label>
                     </div>
@@ -147,15 +147,37 @@
                 <div class="step-content hidden" data-step="5">
                     <div class="text-center mb-6">
                         <div class="w-16 h-16 rounded-full bg-primary/20 border border-primary/50 flex items-center justify-center mx-auto mb-4 text-primary text-3xl shadow-[0_0_20px_rgba(79,70,229,0.3)]">
-                            <ion-icon name="sparkles"></ion-icon>
+                            <ion-icon name="hourglass-outline"></ion-icon>
                         </div>
-                        <h2 class="text-3xl font-extrabold text-white mb-2">Ready to compile!</h2>
-                        <p class="text-gray-400">Our AI will generate a personalized roadmap and estimate the timeline based on your inputs and our library's books.</p>
+                        <h2 class="text-3xl font-extrabold text-white mb-2">Target Timeline</h2>
+                        <p class="text-gray-400">Select your deadline to help customize the roadmap length.</p>
                     </div>
                     
-                    <div class="mb-8">
-                        <label class="block text-sm font-medium text-gray-400 mb-2">Deadline (Optional)</label>
-                        <input type="text" name="deadline" placeholder="e.g., 2 months, 6 weeks..." class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-all text-lg">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="deadline" value="1 Month" class="peer sr-only" required>
+                            <div class="p-5 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 peer-checked:bg-primary/20 peer-checked:border-primary/50 transition-all text-center flex flex-col items-center justify-center h-full">
+                                <ion-icon name="flash-outline" class="text-3xl text-orange-400 mb-2"></ion-icon>
+                                <h3 class="font-bold text-white mb-1">1 Month</h3>
+                                <p class="text-xs text-gray-400">Intensive crash course</p>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="deadline" value="3 Months" class="peer sr-only">
+                            <div class="p-5 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 peer-checked:bg-primary/20 peer-checked:border-primary/50 transition-all text-center flex flex-col items-center justify-center h-full">
+                                <ion-icon name="calendar-outline" class="text-3xl text-primary mb-2"></ion-icon>
+                                <h3 class="font-bold text-white mb-1">3 Months</h3>
+                                <p class="text-xs text-gray-400">Balanced steady learning</p>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="deadline" value="6 Months" class="peer sr-only">
+                            <div class="p-5 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 peer-checked:bg-primary/20 peer-checked:border-primary/50 transition-all text-center flex flex-col items-center justify-center h-full">
+                                <ion-icon name="leaf-outline" class="text-3xl text-green-400 mb-2"></ion-icon>
+                                <h3 class="font-bold text-white mb-1">6 Months+</h3>
+                                <p class="text-xs text-gray-400">Relaxed deep dive</p>
+                            </div>
+                        </label>
                     </div>
                 </div>
 
@@ -288,6 +310,13 @@
     if (form) {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
+            
+            // Validate final step
+            const checkedDeadline = document.querySelector('input[name="deadline"]:checked');
+            if(!checkedDeadline) {
+                alert("Please select a target timeline to generate your roadmap.");
+                return;
+            }
             
             const fd = new FormData(form);
             const data = {

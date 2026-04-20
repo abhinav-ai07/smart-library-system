@@ -1,20 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="px-8 py-10 max-w-5xl mx-auto">
-    <header class="mb-10 text-center">
-        <h1 class="text-4xl font-extrabold text-gray-900 dark:text-white mb-4">Smart Search</h1>
-        <p class="text-gray-500 dark:text-gray-400">Powered by Trie Data Structure for O(L) autocomplete lookups.</p>
-    </header>
+<div class="px-6 py-10 w-full max-w-5xl mx-auto flex flex-col items-center justify-center min-h-[calc(100vh-100px)]">
+    <!-- Centered Glassy Container -->
+    <div class="w-full glass-panel bg-black/50 backdrop-blur-3xl border border-white/15 p-8 md:p-12 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.6)] relative overflow-hidden">
+        <header class="mb-10 text-center">
+            <h1 class="text-4xl font-extrabold text-white mb-4 text-glow">
+                Smart Search
+            </h1>
+            <p class="text-gray-300 font-medium text-glow">Instantly find books with smart autocomplete lookups.</p>
+        </header>
 
-    <div class="relative max-w-2xl mx-auto mb-12 relative z-20">
+        <div class="relative w-full max-w-3xl mx-auto mb-12 z-20">
         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 text-xl">
             <ion-icon name="search-outline"></ion-icon>
         </div>
-        <input type="text" id="searchInput" class="w-full pl-12 pr-4 py-4 text-lg bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-2xl focus:ring-4 focus:ring-primary/20 focus:border-primary outline-none transition-all shadow-sm dark:text-white placeholder-gray-400" placeholder="Start typing a book title..." autocomplete="off">
+        <input type="text" id="searchInput" class="w-full pl-12 pr-4 py-4 text-lg bg-white/10 border-2 border-white/20 rounded-2xl focus:ring-4 focus:ring-primary/40 focus:border-primary outline-none transition-all shadow-inner text-white placeholder-gray-300 backdrop-blur-sm" placeholder="Start typing a book title..." autocomplete="off">
         
         <!-- Suggestions Dropdown preview -->
-        <div id="suggestions" class="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden hidden z-50">
+        <div id="suggestions" class="absolute top-full left-0 right-0 mt-2 bg-black/80 backdrop-blur-xl rounded-xl shadow-xl border border-white/20 overflow-hidden hidden z-50">
             <!-- Items injected by JS -->
         </div>
     </div>
@@ -23,10 +27,12 @@
         <!-- Results injected by JS -->
     </div>
 
-    <div id="noResults" class="text-center text-gray-500 dark:text-gray-400 mt-10 hidden">
+    <div id="noResults" class="text-center text-gray-300 mt-10 hidden">
         <ion-icon name="sad-outline" class="text-6xl mb-4 opacity-50"></ion-icon>
-        <p class="text-xl">No books found matching your query.</p>
+        <p class="text-xl font-medium">No books found matching your query.</p>
     </div>
+    
+    </div> <!-- End glassy container -->
 </div>
 {% endblock %}
 
@@ -82,7 +88,7 @@
             // Add to dropdown (just first 5)
             if(index < 5) {
                 const suggEl = document.createElement('div');
-                suggEl.className = 'px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer border-b border-gray-100 dark:border-gray-700 last:border-0 text-gray-700 dark:text-gray-200';
+                suggEl.className = 'px-4 py-3 hover:bg-white/10 cursor-pointer border-b border-white/10 last:border-0 text-white transition-colors';
                 suggEl.innerHTML = `<span class="font-semibold text-primary">${book.title.substring(0, searchInput.value.length)}</span>${book.title.substring(searchInput.value.length)} <span class="text-xs text-gray-400 ml-2">in ${book.genre}</span>`;
                 suggEl.onclick = () => {
                     searchInput.value = book.title;
@@ -105,22 +111,22 @@
             const statusText = book.available ? 'Available' : 'Issued';
             
             const btnHtml = book.available ? 
-                `<button onclick="issueBook('${book.id}')" class="w-full mt-4 bg-primary hover:bg-indigo-700 text-white py-2 rounded-lg transition font-medium text-sm flex items-center justify-center"><ion-icon name="library-outline" class="mr-2"></ion-icon> Issue Book</button>` 
+                `<button onclick="issueBook('${book.id}')" class="w-full mt-4 bg-primary/20 border border-primary/40 hover:bg-primary text-white py-2.5 rounded-xl transition-all font-bold text-sm flex items-center justify-center shadow-lg hover:shadow-[0_0_20px_rgba(79,70,229,0.5)]"><ion-icon name="library-outline" class="mr-2 text-lg"></ion-icon> Issue Book</button>` 
                 : 
-                `<button onclick="returnBook('${book.id}')" class="w-full mt-4 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 py-2 rounded-lg transition font-medium text-sm hover:bg-gray-300 dark:hover:bg-gray-600 flex items-center justify-center"><ion-icon name="arrow-undo-outline" class="mr-2"></ion-icon> Return Book</button>`;
+                `<button onclick="returnBook('${book.id}')" class="w-full mt-4 bg-white/5 border border-white/10 text-gray-400 hover:text-white py-2.5 rounded-xl transition-all font-bold text-sm hover:bg-white/15 flex items-center justify-center"><ion-icon name="arrow-undo-outline" class="mr-2 text-lg"></ion-icon> Return Book</button>`;
 
             const card = document.createElement('div');
-            card.className = 'glass bg-white/50 dark:bg-gray-800/50 p-6 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 book-card flex flex-col justify-between';
+            card.className = 'glass bg-white/5 p-6 rounded-2xl shadow-sm border border-white/10 book-card flex flex-col justify-between hover:-translate-y-1 transition-transform hover:bg-white/10';
             card.innerHTML = `
                 <div>
                     <div class="flex justify-between items-start mb-4">
-                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full text-xs font-bold tracking-wide">${book.genre} - ${book.level}</span>
+                        <span class="px-3 py-1 bg-white/10 border border-white/10 text-gray-300 rounded-full text-xs font-bold tracking-wide shadow-inner">${book.genre} - ${book.level}</span>
                         <span class="flex items-center px-2 py-1 rounded-md text-xs font-bold ${statusClass}">
                             <ion-icon name="${statusIcon}" class="mr-1"></ion-icon> ${statusText}
                         </span>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-1">${book.title}</h3>
-                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">by ${book.author}</p>
+                    <h3 class="text-xl font-bold text-white mb-1 shadow-sm line-clamp-2">${book.title}</h3>
+                    <p class="text-sm text-gray-400 mb-4 font-medium">by ${book.author}</p>
                 </div>
                 <div>
                     ${btnHtml}

@@ -171,6 +171,26 @@ def history():
     user_stack = load_user_history_stack(HISTORY_FILE, session['username'])
     return render_template('history.html', history=user_stack.get_all())
 
+@app.route('/my_books')
+def my_books():
+    if 'username' not in session: return redirect(url_for('login'))
+    
+    # Calculate currently issued books from history
+    user_stack = load_user_history_stack(HISTORY_FILE, session['username'])
+    history = user_stack.items
+    
+    issued_books = {}
+    # Iterate oldest to newest
+    for tx in history:
+        if tx['action'] == 'ISSUE':
+            issued_books[tx['book_id']] = tx
+        elif tx['action'] == 'RETURN':
+            if tx['book_id'] in issued_books:
+                del issued_books[tx['book_id']]
+                
+    # Show the most recently issued books first
+    return render_template('my_books.html', issued_books=list(issued_books.values())[::-1])
+
 @app.route('/api/issue', methods=['POST'])
 def issue_book():
     if 'username' not in session: return jsonify({"status":"error", "msg":"Unauthorized"})
@@ -294,6 +314,7 @@ def new_generate_pathway():
     Their primary goal is: {goal}.
     Skill level: {level}.
     Time availability: {time_avail}.
+    Target deadline: {deadline}.
 
     Relevant books available in the library:
     {books_context}
