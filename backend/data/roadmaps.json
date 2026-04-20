@@ -1,0 +1,53 @@
+{
+    "abhinav": {
+        "current_step": 0,
+        "roadmap": [
+            {
+                "book_id": "84",
+                "books": "Deep Learning for NLP by Palash Goyal",
+                "outcome": "Ability to mathematically explain how high-dimensional linguistic data is compressed into dense vectors.",
+                "resources": "MIT OpenCourseWare (Linear Algebra), Stanford CS224N Lecture Notes",
+                "subtopics": "Singular Value Decomposition (SVD), Principal Component Analysis (PCA), Word Embeddings (Word2Vec, GloVe)",
+                "tasks": "Study the mathematical derivation of SVD and its application in Latent Semantic Analysis. Read Chapters 1-3 of Goyal to understand the transition from count-based to prediction-based embeddings.",
+                "topics": "Advanced Linear Algebra & Vector Space Models",
+                "week": "Week 1",
+                "is_issued": true
+            },
+            {
+                "book_id": "84",
+                "books": "Deep Learning for NLP by Palash Goyal",
+                "outcome": "Deep understanding of the optimization challenges in temporal data and how gated architectures solve them.",
+                "resources": "Matrix Calculus for Deep Learning (Paper), Karpathy's 'The Unreasonable Effectiveness of RNNs'",
+                "subtopics": "Backpropagation Through Time (BPTT), Vanishing/Exploding Gradients, RNNs, and LSTMs",
+                "tasks": "Derive the gradient flow for a Recurrent Neural Network. Read the chapters on Sequence Modeling in Goyal. Implement a basic LSTM cell from scratch using only NumPy.",
+                "topics": "Calculus for Sequence Modeling",
+                "week": "Week 2"
+            },
+            {
+                "book_id": "84",
+                "books": "Deep Learning for NLP by Palash Goyal",
+                "outcome": "Mastery of the Transformer architecture's mathematical core and why it outperforms previous sequence models.",
+                "resources": "'Attention Is All You Need' (Vaswani et al.)",
+                "subtopics": "Softmax distribution, Cross-entropy loss, Self-Attention, Multi-head Attention",
+                "tasks": "Analyze the Scaled Dot-Product Attention formula. Study Goyal's section on Attention mechanisms. Calculate the complexity of self-attention versus standard convolution.",
+                "topics": "Probability, Information Theory & Attention Mechanisms",
+                "week": "Week 3"
+            },
+            {
+                "book_id": "84",
+                "books": "Deep Learning for NLP by Palash Goyal",
+                "outcome": "Competency in deploying advanced NLP models and understanding the math behind their training stability.",
+                "resources": "Hugging Face 'Course' for practical implementation",
+                "subtopics": "Adam Optimizer, Layer Normalization, BERT, and GPT architectures",
+                "tasks": "Study the convergence properties of the Adam optimizer. Read the concluding chapters on state-of-the-art NLP in Goyal. Fine-tune a pre-trained Transformer on a custom dataset.",
+                "topics": "Advanced Optimization & Large Language Models",
+                "week": "Week 4"
+            }
+        ],
+        "final_section": {
+            "mistakes": "Focusing solely on library APIs without understanding the underlying matrix calculus or probability distributions. Skipping the 'why' behind activation functions.",
+            "motivation": "You are navigating the intersection of linguistics and advanced mathematics. By mastering these foundations, you aren't just using AI\u2014you are understanding the logic that powers the future of human-machine interaction.",
+            "tips": "Dedicate the first hour of your daily session to the mathematical proofs and the second hour to the implementation found in Goyal's book."
+        }
+    }
+}

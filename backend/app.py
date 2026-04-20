@@ -23,6 +23,7 @@ BOOKS_FILE = os.path.join(DATA_DIR, 'books.json')
 TRANSACTIONS_FILE = os.path.join(DATA_DIR, 'transactions.json')
 PROGRESS_FILE = os.path.join(DATA_DIR, 'progress.json')
 HISTORY_FILE = os.path.join(DATA_DIR, 'history.json')
+ROADMAPS_FILE = os.path.join(DATA_DIR, 'roadmaps.json')
 
 # Global Data Structures
 library_trie = None
@@ -280,6 +281,7 @@ def new_generate_pathway():
     relevant_books = relevant_books[:10]
 
     books_context = json.dumps([{
+        "id": b.get("id"),
         "title": b.get("title"),
         "author": b.get("author", "Unknown"),
         "genre": b.get("genre", "")
@@ -305,6 +307,7 @@ def new_generate_pathway():
                 "week": "Week 1",
                 "topics": "Primary topics covered",
                 "subtopics": "Specific subtopics",
+                "book_id": "Exact ID of the recommended library book from the context (e.g. '1', '42'). Must be a valid ID string. If absolutely no book fits perfectly, leave empty string.",
                 "books": "Library books to use (Title by Author)",
                 "resources": "External resources if needed",
                 "tasks": "Specific tasks to complete",
@@ -373,5 +376,132 @@ def new_generate_pathway():
 
         return jsonify({"status": "error", "msg": str(e)}), 500
 
+@app.route('/api/roadmap/active', methods=['GET'])
+def get_active_roadmap():
+    if 'username' not in session: return jsonify({"status":"error", "msg":"Unauthorized"})
+    roadmaps = load_data(ROADMAPS_FILE, dict)
+    user_roadmap = roadmaps.get(session['username'])
+    if user_roadmap:
+        return jsonify({"status": "success", "data": user_roadmap})
+    return jsonify({"status": "success", "data": None})
+
+@app.route('/api/roadmap/save', methods=['POST'])
+def save_roadmap():
+    if 'username' not in session: return jsonify({"status":"error", "msg":"Unauthorized"})
+    data = request.json
+    roadmap_data = {
+        "current_step": 0,
+        "roadmap": data.get('roadmap', []),
+        "final_section": data.get('final_section', {})
+    }
+    roadmaps = load_data(ROADMAPS_FILE, dict)
+    roadmaps[session['username']] = roadmap_data
+    save_data(ROADMAPS_FILE, roadmaps)
+    return jsonify({"status": "success"})
+
+@app.route('/api/roadmap/exit', methods=['POST'])
+def exit_roadmap():
+    if 'username' not in session: return jsonify({"status":"error", "msg":"Unauthorized"})
+    roadmaps = load_data(ROADMAPS_FILE, dict)
+    if session['username'] in roadmaps:
+        del roadmaps[session['username']]
+        save_data(ROADMAPS_FILE, roadmaps)
+    return jsonify({"status": "success"})
+
+@app.route('/api/roadmap/issue_step', methods=['POST'])
+def issue_step_book():
+    if 'username' not in session: return jsonify({"status":"error", "msg":"Unauthorized"})
+    roadmaps = load_data(ROADMAPS_FILE, dict)
+    user_roadmap = roadmaps.get(session['username'])
+    if not user_roadmap:
+        return jsonify({"status": "error", "msg": "No active roadmap."})
+    
+    step_idx = user_roadmap.get('current_step', 0)
+    roadmap_steps = user_roadmap.get('roadmap', [])
+    if step_idx >= len(roadmap_steps):
+        return jsonify({"status": "error", "msg": "Roadmap already completed."})
+        
+    step = roadmap_steps[step_idx]
+    book_id = step.get('book_id')
+    if not book_id:
+        step['is_issued'] = True
+        save_data(ROADMAPS_FILE, roadmaps)
+        return jsonify({"status": "success", "msg": "Step started (no library book required)."})
+        
+    book = next((b for b in books_list if b['id'] == str(book_id)), None)
+    if not book or not book.get('available', False):
+        return jsonify({"status": "error", "msg": "Recommended book is unavailable. Please study theory or wait."})
+        
+    # Issue book
+    book['available'] = False
+    save_data(BOOKS_FILE, books_list)
+    init_data_structures()
+    
+    trans = load_data(TRANSACTIONS_FILE)
+    t = {
+        'id': str(len(trans)+1),
+        'user': session['username'],
+        'book_id': book_id,
+        'book_title': book['title'],
+        'action': 'ISSUE',
+        'timestamp': datetime.now().isoformat()
+    }
+    trans.append(t)
+    save_data(TRANSACTIONS_FILE, trans)
+    
+    stack = load_user_history_stack(HISTORY_FILE, session['username'])
+    stack.push(t)
+    save_user_history_stack(HISTORY_FILE, session['username'], stack)
+    
+    step['is_issued'] = True
+    save_data(ROADMAPS_FILE, roadmaps)
+    
+    return jsonify({"status": "success", "msg": f"Book '{book['title']}' issued."})
+
+@app.route('/api/roadmap/complete_step', methods=['POST'])
+def complete_step():
+    if 'username' not in session: return jsonify({"status":"error", "msg":"Unauthorized"})
+    roadmaps = load_data(ROADMAPS_FILE, dict)
+    user_roadmap = roadmaps.get(session['username'])
+    if not user_roadmap:
+        return jsonify({"status": "error", "msg": "No active roadmap."})
+    
+    step_idx = user_roadmap.get('current_step', 0)
+    roadmap_steps = user_roadmap.get('roadmap', [])
+    if step_idx >= len(roadmap_steps):
+        return jsonify({"status": "error", "msg": "Roadmap already completed."})
+        
+    step = roadmap_steps[step_idx]
+    book_id = step.get('book_id')
+    
+    if book_id and step.get('is_issued'):
+        book = next((b for b in books_list if b['id'] == str(book_id)), None)
+        if book:
+            book['available'] = True
+            save_data(BOOKS_FILE, books_list)
+            init_data_structures()
+            
+            trans = load_data(TRANSACTIONS_FILE)
+            t = {
+                'id': str(len(trans)+1),
+                'user': session['username'],
+                'book_id': book_id,
+                'book_title': book['title'],
+                'action': 'RETURN',
+                'timestamp': datetime.now().isoformat()
+            }
+            trans.append(t)
+            save_data(TRANSACTIONS_FILE, trans)
+            
+            stack = load_user_history_stack(HISTORY_FILE, session['username'])
+            stack.push(t)
+            save_user_history_stack(HISTORY_FILE, session['username'], stack)
+    
+    user_roadmap['current_step'] = step_idx + 1
+    step['is_completed'] = True
+    save_data(ROADMAPS_FILE, roadmaps)
+    return jsonify({"status": "success", "msg": "Step completed. Moved to next step."})
+
 if __name__ == '__main__':
+
     app.run(debug=True, port=5000)

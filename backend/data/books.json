@@ -1,42 +1,802 @@
 [
-    {"id":"1","title":"Artificial Intelligence: A Modern Approach","author":"Stuart Russell, Peter Norvig","genre":"AI","level":"Intermediate","available":true},
-    {"id":"2","title":"Deep Learning","author":"Ian Goodfellow","genre":"AI","level":"Advanced","available":true},
-    {"id":"3","title":"Machine Learning","author":"Tom M. Mitchell","genre":"AI","level":"Intermediate","available":true},
-    {"id":"4","title":"Pattern Recognition and Machine Learning","author":"Christopher Bishop","genre":"AI","level":"Advanced","available":true},
-    {"id":"5","title":"Grokking Machine Learning","author":"Luis Serrano","genre":"AI","level":"Beginner","available":true},
-    {"id":"6","title":"Hands-On Machine Learning with Scikit-Learn","author":"Aurélien Géron","genre":"AI","level":"Intermediate","available":true},
-    {"id":"7","title":"AI Superpowers","author":"Kai-Fu Lee","genre":"AI","level":"Beginner","available":true},
-    {"id":"8","title":"Life 3.0","author":"Max Tegmark","genre":"AI","level":"Beginner","available":true},
-    {"id":"9","title":"Artificial Intelligence Basics","author":"Tom Taulli","genre":"AI","level":"Beginner","available":true},
-    {"id":"10","title":"Prediction Machines","author":"Ajay Agrawal","genre":"AI","level":"Intermediate","available":true},
-    {"id":"11","title":"You Look Like a Thing and I Love You","author":"Janelle Shane","genre":"AI","level":"Beginner","available":true},
-    {"id":"12","title":"Machine Learning Yearning","author":"Andrew Ng","genre":"AI","level":"Intermediate","available":true},
-    {"id":"13","title":"Reinforcement Learning: An Introduction","author":"Richard Sutton","genre":"AI","level":"Advanced","available":true},
-    {"id":"14","title":"Speech and Language Processing","author":"Daniel Jurafsky","genre":"AI","level":"Advanced","available":true},
-    {"id":"15","title":"Deep Reinforcement Learning Hands-On","author":"Maxim Lapan","genre":"AI","level":"Advanced","available":true},
-    {"id":"16","title":"Artificial Intelligence for Humans","author":"Jeff Heaton","genre":"AI","level":"Beginner","available":true},
-    {"id":"17","title":"The Hundred-Page Machine Learning Book","author":"Andriy Burkov","genre":"AI","level":"Beginner","available":true},
-    {"id":"18","title":"Machine Learning for Absolute Beginners","author":"Oliver Theobald","genre":"AI","level":"Beginner","available":true},
-    {"id":"19","title":"AI 2041","author":"Kai-Fu Lee","genre":"AI","level":"Beginner","available":true},
-    {"id":"20","title":"Human Compatible","author":"Stuart Russell","genre":"AI","level":"Intermediate","available":true},
-    {"id":"21","title":"Artificial Intelligence Engines","author":"James V. Stone","genre":"AI","level":"Intermediate","available":true},
-    {"id":"22","title":"Machine Learning: A Probabilistic Perspective","author":"Kevin Murphy","genre":"AI","level":"Advanced","available":true},
-    {"id":"23","title":"Neural Networks and Deep Learning","author":"Charu Aggarwal","genre":"AI","level":"Advanced","available":true},
-    {"id":"24","title":"Deep Learning with Python","author":"Francois Chollet","genre":"AI","level":"Intermediate","available":true},
-    {"id":"25","title":"AI for Everyone","author":"Andrew Ng","genre":"AI","level":"Beginner","available":true},
-    {"id":"26","title":"Python Machine Learning","author":"Sebastian Raschka","genre":"AI","level":"Intermediate","available":true},
-    {"id":"27","title":"Building Machine Learning Systems","author":"Willi Richert","genre":"AI","level":"Intermediate","available":true},
-    {"id":"28","title":"Machine Learning Engineering","author":"Andriy Burkov","genre":"AI","level":"Advanced","available":true},
-    {"id":"29","title":"Artificial Intelligence Foundations","author":"Matt Taddy","genre":"AI","level":"Intermediate","available":true},
-    {"id":"30","title":"Deep Learning Illustrated","author":"Jon Krohn","genre":"AI","level":"Beginner","available":true},
-    {"id":"31","title":"Practical Deep Learning for Coders","author":"Jeremy Howard","genre":"AI","level":"Intermediate","available":true},
-    {"id":"32","title":"AI Basics for Beginners","author":"Alex Bennett","genre":"AI","level":"Beginner","available":true},
-    {"id":"33","title":"Applied Artificial Intelligence","author":"Mariya Yao","genre":"AI","level":"Intermediate","available":true},
-    {"id":"34","title":"Artificial Intelligence with Python","author":"Prateek Joshi","genre":"AI","level":"Intermediate","available":true},
-    {"id":"35","title":"Mastering Machine Learning","author":"Gavin Hackeling","genre":"AI","level":"Advanced","available":true},
-    {"id":"36","title":"Hands-On Deep Learning","author":"Amita Kapoor","genre":"AI","level":"Advanced","available":true},
-    {"id":"37","title":"The AI Advantage","author":"Thomas Davenport","genre":"AI","level":"Beginner","available":true},
-    {"id":"38","title":"Artificial Intelligence in Practice","author":"Bernard Marr","genre":"AI","level":"Beginner","available":true},
-    {"id":"39","title":"Deep Learning for Beginners","author":"Jason Brownlee","genre":"AI","level":"Beginner","available":true},
-    {"id":"40","title":"Machine Learning with PyTorch","author":"Sebastian Raschka","genre":"AI","level":"Intermediate","available":true}
+    {
+        "id": "1",
+        "title": "Artificial Intelligence: A Modern Approach",
+        "author": "Stuart Russell, Peter Norvig",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "2",
+        "title": "Deep Learning",
+        "author": "Ian Goodfellow",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": false
+    },
+    {
+        "id": "3",
+        "title": "Machine Learning",
+        "author": "Tom M. Mitchell",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "4",
+        "title": "Pattern Recognition and Machine Learning",
+        "author": "Christopher Bishop",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "5",
+        "title": "Grokking Machine Learning",
+        "author": "Luis Serrano",
+        "genre": "AI",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "6",
+        "title": "Hands-On Machine Learning with Scikit-Learn",
+        "author": "Aur\u00c3\u00a9lien G\u00c3\u00a9ron",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "7",
+        "title": "AI Superpowers",
+        "author": "Kai-Fu Lee",
+        "genre": "AI",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "8",
+        "title": "Life 3.0",
+        "author": "Max Tegmark",
+        "genre": "AI",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "9",
+        "title": "Artificial Intelligence Basics",
+        "author": "Tom Taulli",
+        "genre": "AI",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "10",
+        "title": "Prediction Machines",
+        "author": "Ajay Agrawal",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "11",
+        "title": "You Look Like a Thing and I Love You",
+        "author": "Janelle Shane",
+        "genre": "AI",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "12",
+        "title": "Machine Learning Yearning",
+        "author": "Andrew Ng",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "13",
+        "title": "Reinforcement Learning: An Introduction",
+        "author": "Richard Sutton",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "14",
+        "title": "Speech and Language Processing",
+        "author": "Daniel Jurafsky",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "15",
+        "title": "Deep Reinforcement Learning Hands-On",
+        "author": "Maxim Lapan",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "16",
+        "title": "Artificial Intelligence for Humans",
+        "author": "Jeff Heaton",
+        "genre": "AI",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "17",
+        "title": "The Hundred-Page Machine Learning Book",
+        "author": "Andriy Burkov",
+        "genre": "AI",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "18",
+        "title": "Machine Learning for Absolute Beginners",
+        "author": "Oliver Theobald",
+        "genre": "AI",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "19",
+        "title": "AI 2041",
+        "author": "Kai-Fu Lee",
+        "genre": "AI",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "20",
+        "title": "Human Compatible",
+        "author": "Stuart Russell",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "21",
+        "title": "Artificial Intelligence Engines",
+        "author": "James V. Stone",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "22",
+        "title": "Machine Learning: A Probabilistic Perspective",
+        "author": "Kevin Murphy",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "23",
+        "title": "Neural Networks and Deep Learning",
+        "author": "Charu Aggarwal",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": false
+    },
+    {
+        "id": "24",
+        "title": "Deep Learning with Python",
+        "author": "Francois Chollet",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": false
+    },
+    {
+        "id": "25",
+        "title": "AI for Everyone",
+        "author": "Andrew Ng",
+        "genre": "AI",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "26",
+        "title": "Python Machine Learning",
+        "author": "Sebastian Raschka",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "27",
+        "title": "Building Machine Learning Systems",
+        "author": "Willi Richert",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "28",
+        "title": "Machine Learning Engineering",
+        "author": "Andriy Burkov",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "29",
+        "title": "Artificial Intelligence Foundations",
+        "author": "Matt Taddy",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "30",
+        "title": "Deep Learning Illustrated",
+        "author": "Jon Krohn",
+        "genre": "AI",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "31",
+        "title": "Practical Deep Learning for Coders",
+        "author": "Jeremy Howard",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "32",
+        "title": "AI Basics for Beginners",
+        "author": "Alex Bennett",
+        "genre": "AI",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "33",
+        "title": "Applied Artificial Intelligence",
+        "author": "Mariya Yao",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "34",
+        "title": "Artificial Intelligence with Python",
+        "author": "Prateek Joshi",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "35",
+        "title": "Mastering Machine Learning",
+        "author": "Gavin Hackeling",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "36",
+        "title": "Hands-On Deep Learning",
+        "author": "Amita Kapoor",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "37",
+        "title": "The AI Advantage",
+        "author": "Thomas Davenport",
+        "genre": "AI",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "38",
+        "title": "Artificial Intelligence in Practice",
+        "author": "Bernard Marr",
+        "genre": "AI",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "39",
+        "title": "Deep Learning for Beginners",
+        "author": "Jason Brownlee",
+        "genre": "AI",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "40",
+        "title": "Machine Learning with PyTorch",
+        "author": "Sebastian Raschka",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "41",
+        "title": "Natural Language Processing with Transformers",
+        "author": "Lewis Tunstall",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "42",
+        "title": "Transformers for Natural Language Processing",
+        "author": "Denis Rothman",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "43",
+        "title": "Speech Recognition and Processing",
+        "author": "Claudio Becchetti",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": false
+    },
+    {
+        "id": "44",
+        "title": "Computer Vision: Algorithms and Applications",
+        "author": "Richard Szeliski",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "45",
+        "title": "Learning OpenCV",
+        "author": "Gary Bradski",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "46",
+        "title": "Programming Computer Vision with Python",
+        "author": "Jan Erik Solem",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "47",
+        "title": "Reinforcement Learning with Python",
+        "author": "Sudharsan Ravichandiran",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "48",
+        "title": "Hands-On Reinforcement Learning with OpenAI Gym",
+        "author": "Sudharsan Ravichandiran",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "49",
+        "title": "Bayesian Reasoning and Machine Learning",
+        "author": "David Barber",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": false
+    },
+    {
+        "id": "50",
+        "title": "Probabilistic Graphical Models",
+        "author": "Daphne Koller",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "51",
+        "title": "Data Science from Scratch",
+        "author": "Joel Grus",
+        "genre": "AI",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "52",
+        "title": "Think Stats",
+        "author": "Allen B. Downey",
+        "genre": "AI",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "53",
+        "title": "Think Bayes",
+        "author": "Allen B. Downey",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "54",
+        "title": "Deep Learning with PyTorch",
+        "author": "Eli Stevens",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "55",
+        "title": "Generative Deep Learning",
+        "author": "David Foster",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "56",
+        "title": "GANs in Action",
+        "author": "Jakub Langr",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "57",
+        "title": "Machine Learning Design Patterns",
+        "author": "Valliappa Lakshmanan",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "58",
+        "title": "Designing Machine Learning Systems",
+        "author": "Chip Huyen",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "59",
+        "title": "AI Ethics",
+        "author": "Mark Coeckelbergh",
+        "genre": "AI",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "60",
+        "title": "Ethics of Artificial Intelligence",
+        "author": "Nick Bostrom",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "61",
+        "title": "Superintelligence",
+        "author": "Nick Bostrom",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "62",
+        "title": "Artificial Intelligence: Foundations of Computational Agents",
+        "author": "David Poole",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "63",
+        "title": "AI for Games",
+        "author": "Ian Millington",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "64",
+        "title": "Game AI Pro",
+        "author": "Steve Rabin",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": false
+    },
+    {
+        "id": "65",
+        "title": "Deep Learning for Vision Systems",
+        "author": "Mohamed Elgendy",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "66",
+        "title": "Practical Natural Language Processing",
+        "author": "Sowmya Vajjala",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "67",
+        "title": "Text Analytics with Python",
+        "author": "Dipanjan Sarkar",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "68",
+        "title": "Applied Text Analysis with Python",
+        "author": "Benjamin Bengfort",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "69",
+        "title": "Speech and Language Processing (3rd Edition Draft)",
+        "author": "Jurafsky & Martin",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "70",
+        "title": "Foundations of Machine Learning",
+        "author": "Mehryar Mohri",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "71",
+        "title": "Understanding Machine Learning",
+        "author": "Shai Shalev-Shwartz",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "72",
+        "title": "Machine Learning with TensorFlow",
+        "author": "Nishant Shukla",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "73",
+        "title": "TensorFlow for Deep Learning",
+        "author": "Bharath Ramsundar",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "74",
+        "title": "Keras Deep Learning Cookbook",
+        "author": "Giuseppe Ciaburro",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "75",
+        "title": "Practical Artificial Intelligence",
+        "author": "Arjun Singh",
+        "genre": "AI",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "76",
+        "title": "Artificial Intelligence for Dummies",
+        "author": "John Paul Mueller",
+        "genre": "AI",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "77",
+        "title": "Machine Learning for Hackers",
+        "author": "Drew Conway",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "78",
+        "title": "Feature Engineering for Machine Learning",
+        "author": "Alice Zheng",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "79",
+        "title": "Interpretable Machine Learning",
+        "author": "Christoph Molnar",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "80",
+        "title": "Explainable AI",
+        "author": "Adadi Amina",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "81",
+        "title": "AutoML",
+        "author": "Frank Hutter",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": false
+    },
+    {
+        "id": "82",
+        "title": "Meta Learning",
+        "author": "Chelsea Finn",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "83",
+        "title": "Graph Neural Networks",
+        "author": "Zonghan Wu",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "84",
+        "title": "Deep Learning for NLP",
+        "author": "Palash Goyal",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": false
+    },
+    {
+        "id": "85",
+        "title": "AI in Healthcare",
+        "author": "Parag Mahajan",
+        "genre": "AI",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "86",
+        "title": "AI for Finance",
+        "author": "Yves Hilpisch",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "87",
+        "title": "AI for Robotics",
+        "author": "Robin Murphy",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "88",
+        "title": "Robotics: Modelling, Planning and Control",
+        "author": "Bruno Siciliano",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "89",
+        "title": "AI for Autonomous Vehicles",
+        "author": "Shaoshan Liu",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "90",
+        "title": "Edge AI",
+        "author": "Pethuru Raj",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "91",
+        "title": "TinyML",
+        "author": "Pete Warden",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "92",
+        "title": "AI Hardware",
+        "author": "Rezaul Chowdhury",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": false
+    },
+    {
+        "id": "93",
+        "title": "Quantum Machine Learning",
+        "author": "Peter Wittek",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    },
+    {
+        "id": "94",
+        "title": "Deep Learning for Coders",
+        "author": "Jeremy Howard",
+        "genre": "AI",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "95",
+        "title": "AI Crash Course",
+        "author": "Hadelin de Ponteves",
+        "genre": "AI",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "96",
+        "title": "Machine Learning Projects",
+        "author": "Willi Richert",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "97",
+        "title": "AI Product Management",
+        "author": "Ineke De Cock",
+        "genre": "AI",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "98",
+        "title": "AI Strategy",
+        "author": "Bernard Marr",
+        "genre": "AI",
+        "level": "Beginner",
+        "available": true
+    },
+    {
+        "id": "99",
+        "title": "Building AI Applications",
+        "author": "Emanuel Ameisen",
+        "genre": "AI",
+        "level": "Intermediate",
+        "available": true
+    },
+    {
+        "id": "100",
+        "title": "AI Engineering",
+        "author": "Chip Huyen",
+        "genre": "AI",
+        "level": "Advanced",
+        "available": true
+    }
 ]

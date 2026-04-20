@@ -211,6 +211,26 @@
     
     let currentStep = 1;
     const totalSteps = steps.length;
+    
+    // Load active roadmap on page load
+    document.addEventListener("DOMContentLoaded", () => {
+        loadActiveRoadmap();
+    });
+
+    async function loadActiveRoadmap() {
+        try {
+            const res = await fetch('/api/roadmap/active');
+            const data = await res.json();
+            if (data.status === 'success' && data.data) {
+                // We have an active roadmap
+                document.getElementById('progress-container').classList.add('hidden');
+                form.classList.add('hidden');
+                renderRoadmap(data.data);
+            }
+        } catch (err) {
+            console.error("Error loading active roadmap:", err);
+        }
+    }
 
     function updateUI() {
         steps.forEach(s => {
@@ -218,106 +238,116 @@
             s.classList.remove('animate-fade-in');
         });
         const active = document.querySelector(`.step-content[data-step="${currentStep}"]`);
-        active.classList.remove('hidden');
-        active.classList.add('animate-fade-in');
+        if (active) {
+            active.classList.remove('hidden');
+            active.classList.add('animate-fade-in');
+        }
 
         progressBar.style.width = `${(currentStep / totalSteps) * 100}%`;
-        stepIndicator.innerText = `Step ${currentStep} of ${totalSteps}`;
+        if (stepIndicator) stepIndicator.innerText = `Step ${currentStep} of ${totalSteps}`;
 
-        btnBack.classList.toggle('hidden', currentStep === 1);
+        if (btnBack) btnBack.classList.toggle('hidden', currentStep === 1);
         
         if (currentStep === totalSteps) {
-            btnNext.classList.add('hidden');
-            btnSubmit.classList.remove('hidden');
+            if (btnNext) btnNext.classList.add('hidden');
+            if (btnSubmit) btnSubmit.classList.remove('hidden');
         } else {
-            btnNext.classList.remove('hidden');
-            btnSubmit.classList.add('hidden');
+            if (btnNext) btnNext.classList.remove('hidden');
+            if (btnSubmit) btnSubmit.classList.add('hidden');
         }
     }
 
-    btnNext.addEventListener('click', () => {
-        // basic validation for current step
-        const active = document.querySelector(`.step-content[data-step="${currentStep}"]`);
-        const inputs = active.querySelectorAll('input[required]');
-        let valid = true;
-        
-        // check grouped radios
-        const radios = active.querySelectorAll('input[type="radio"]');
-        if (radios.length > 0) {
-            const checked = active.querySelector('input[type="radio"]:checked');
-            if(!checked){ valid = false; alert("Please select an option."); }
-        }
+    if (btnNext) {
+        btnNext.addEventListener('click', () => {
+            const active = document.querySelector(`.step-content[data-step="${currentStep}"]`);
+            // validation
+            let valid = true;
+            const radios = active.querySelectorAll('input[type="radio"]');
+            if (radios.length > 0) {
+                const checked = active.querySelector('input[type="radio"]:checked');
+                if(!checked){ valid = false; alert("Please select an option."); }
+            }
 
-        if (valid && currentStep < totalSteps) {
-            currentStep++;
-            updateUI();
-        }
-    });
+            if (valid && currentStep < totalSteps) {
+                currentStep++;
+                updateUI();
+            }
+        });
+    }
 
-    btnBack.addEventListener('click', () => {
-        if (currentStep > 1) {
-            currentStep--;
-            updateUI();
-        }
-    });
+    if (btnBack) {
+        btnBack.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                updateUI();
+            }
+        });
+    }
 
     // Handle Form Submission
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const fd = new FormData(form);
-        const data = {
-            level: fd.get('level'),
-            goal: fd.get('goal'),
-            topics: fd.getAll('topic'),
-            time: fd.get('time'),
-            style: fd.get('style'),
-            deadline: fd.get('deadline')
-        };
-        
-        if(!data.topics.length){
-            data.topics = ["Machine Learning"]; // fallback
-        }
-
-        // Transition to loading
-        document.getElementById('progress-container').classList.add('hidden');
-        form.classList.add('hidden');
-        document.getElementById('loading-state').classList.remove('hidden');
-        document.getElementById('loading-state').style.display = 'flex';
-
-        try {
-            const res = await fetch('/api/new_generate_pathway', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-            const result = await res.json();
+    if (form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
             
-            if (!res.ok) throw new Error(result.msg || "Generation error");
-
-            renderRoadmap(result);
+            const fd = new FormData(form);
+            const data = {
+                level: fd.get('level'),
+                goal: fd.get('goal'),
+                topics: fd.getAll('topic'),
+                time: fd.get('time'),
+                style: fd.get('style'),
+                deadline: fd.get('deadline')
+            };
             
-        } catch (err) {
-            alert(err.message);
-            // Revert
-            form.classList.remove('hidden');
-            document.getElementById('progress-container').classList.remove('hidden');
-            document.getElementById('loading-state').style.display = 'none';
-        }
-    });
+            if(!data.topics.length){
+                data.topics = ["Machine Learning"];
+            }
+
+            document.getElementById('progress-container').classList.add('hidden');
+            form.classList.add('hidden');
+            document.getElementById('loading-state').classList.remove('hidden');
+            document.getElementById('loading-state').style.display = 'flex';
+
+            try {
+                // Generate
+                const res = await fetch('/api/new_generate_pathway', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                
+                if (!res.ok) throw new Error(result.msg || "Generation error");
+
+                // Save
+                await fetch('/api/roadmap/save', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(result.data)
+                });
+
+                // Reload
+                document.getElementById('loading-state').style.display = 'none';
+                loadActiveRoadmap();
+                
+            } catch (err) {
+                alert(err.message);
+                form.classList.remove('hidden');
+                document.getElementById('progress-container').classList.remove('hidden');
+                document.getElementById('loading-state').style.display = 'none';
+            }
+        });
+    }
     
-    function renderRoadmap(result) {
+    function renderRoadmap(data) {
         document.getElementById('loading-state').style.display = 'none';
         document.getElementById('roadmap-result').classList.remove('hidden');
         document.getElementById('roadmap-result').style.display = 'flex';
         
-        const data = result.data;
-        
-        // Render Final Section (AI Message / Tips)
+        // Final Section
         if(data.final_section) {
             const aibox = document.getElementById('ai-enhancement-box');
             aibox.classList.remove('hidden');
-            
             let htmlContent = `
                 <h3 class="text-xl font-bold text-white mb-2">Final Advice</h3>
                 <p class="mb-2 text-primary-200"><strong>Motivation:</strong> ${data.final_section.motivation}</p>
@@ -330,19 +360,46 @@
         const container = document.getElementById('timeline-container');
         container.innerHTML = '';
         
+        const currentActiveStep = data.current_step || 0;
+        
         if (data.roadmap && Array.isArray(data.roadmap)) {
             data.roadmap.forEach((step, idx) => {
-                const card = document.createElement('div');
-                card.className = "relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group";
+                const isCompleted = step.is_completed || idx < currentActiveStep;
+                const isActive = idx === currentActiveStep;
+                const isLocked = idx > currentActiveStep;
                 
-                const nodeClr = 'bg-primary';
-                const nodeBorder = 'border-indigo-200';
+                let nodeClr = isCompleted ? 'bg-green-500' : (isActive ? 'bg-primary' : 'bg-gray-600');
+                let nodeBorder = isCompleted ? 'border-green-200' : (isActive ? 'border-indigo-200' : 'border-gray-800');
+                
+                const card = document.createElement('div');
+                card.className = `relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group ${isLocked ? 'opacity-50' : ''}`;
+                
+                let actionButton = '';
+                if (isCompleted) {
+                    actionButton = `<div class="w-full text-center py-2.5 rounded-lg font-bold text-sm bg-green-500/20 text-green-400 border border-green-500/30">
+                        <ion-icon name="checkmark-circle"></ion-icon> Completed
+                    </div>`;
+                } else if (isActive) {
+                    if (step.is_issued) {
+                        actionButton = `<button class="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg font-bold text-sm transition-all bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 hover:bg-yellow-500 hover:text-black" onclick="completeStep()">
+                            <ion-icon name="checkmark-done"></ion-icon> Return Book & Complete Step
+                        </button>`;
+                    } else {
+                        actionButton = `<button class="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg font-bold text-sm transition-all bg-primary/20 text-primary-200 border border-primary/30 hover:bg-primary hover:text-white" onclick="issueStep()">
+                            <ion-icon name="play"></ion-icon> Issue & Begin Week
+                        </button>`;
+                    }
+                } else {
+                    actionButton = `<div class="w-full text-center py-2.5 rounded-lg font-bold text-sm bg-gray-600/20 text-gray-400 border border-gray-600/30">
+                        <ion-icon name="lock-closed"></ion-icon> Locked
+                    </div>`;
+                }
                 
                 let html = `
                     <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 ${nodeClr} ${nodeBorder} dark:border-gray-800 absolute left-0 md:left-1/2 transform -translate-x-1/2 z-10">
-                        <span class="text-white font-bold text-sm">${idx+1}</span>
+                        <span class="text-white font-bold text-sm">${isCompleted ? '<ion-icon name="checkmark"></ion-icon>' : idx+1}</span>
                     </div>
-                    <div class="w-[calc(100%-3rem)] md:w-[calc(50%-2.5rem)] ml-12 md:ml-0 p-5 rounded-2xl glass bg-white/5 border border-white/10 hover:bg-white/10 transition-all hover:-translate-y-1">
+                    <div class="w-[calc(100%-3rem)] md:w-[calc(50%-2.5rem)] ml-12 md:ml-0 p-5 rounded-2xl glass bg-white/5 border border-white/10 hover:bg-white/10 transition-all ${!isLocked ? 'hover:-translate-y-1' : ''}">
                         <div class="flex items-center gap-2 mb-2">
                             <span class="text-xs uppercase tracking-wider font-bold text-gray-400 border border-gray-600 rounded-full px-2 py-0.5">${step.week}</span>
                         </div>
@@ -351,7 +408,7 @@
                         
                         <div class="bg-primary/10 border border-primary/20 p-3 rounded-lg mb-3">
                             <p class="text-sm text-primary-200 font-bold mb-1"><ion-icon name="book-outline"></ion-icon> Library Books</p>
-                            <p class="text-xs text-gray-300">${step.books}</p>
+                            <p class="text-xs text-gray-300">${step.books || 'None'}</p>
                         </div>
                         
                         <div class="space-y-2 mb-4">
@@ -360,9 +417,7 @@
                             <p class="text-xs text-green-400"><strong>Outcome:</strong> ${step.outcome}</p>
                         </div>
                         
-                        <button class="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg font-bold text-sm transition-all bg-primary/20 text-primary-200 border border-primary/30 hover:bg-primary hover:text-white" onclick="alert('Started Phase: ${step.week}')">
-                            <ion-icon name="play"></ion-icon> Begin Week
-                        </button>
+                        ${actionButton}
                     </div>
                 `;
                 
@@ -372,13 +427,51 @@
         }
     }
 
-    document.getElementById('btn-restart').addEventListener('click', () => {
-        document.getElementById('roadmap-result').style.display = 'none';
-        form.classList.remove('hidden');
-        document.getElementById('progress-container').classList.remove('hidden');
-        currentStep = 1;
-        updateUI();
-    });
+    async function issueStep() {
+        try {
+            const res = await fetch('/api/roadmap/issue_step', { method: 'POST' });
+            const data = await res.json();
+            if (data.status === 'success') {
+                alert(data.msg);
+                loadActiveRoadmap();
+            } else {
+                alert(data.msg);
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    async function completeStep() {
+        try {
+            const res = await fetch('/api/roadmap/complete_step', { method: 'POST' });
+            const data = await res.json();
+            if (data.status === 'success') {
+                alert(data.msg);
+                loadActiveRoadmap();
+            } else {
+                alert(data.msg);
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    if (document.getElementById('btn-restart')) {
+        document.getElementById('btn-restart').addEventListener('click', async () => {
+            if (confirm('Are you sure you want to abandon the current roadmap? Progress will be lost.')) {
+                await fetch('/api/roadmap/exit', { method: 'POST' });
+                document.getElementById('roadmap-result').style.display = 'none';
+                form.classList.remove('hidden');
+                document.getElementById('progress-container').classList.remove('hidden');
+                currentStep = 1;
+                updateUI();
+                // To be safe, clear any active state UI
+                document.getElementById('ai-enhancement-box').classList.add('hidden');
+                document.getElementById('timeline-container').innerHTML = '';
+            }
+        });
+    }
 
 </script>
 {% endblock %}
